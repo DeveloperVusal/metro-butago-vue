@@ -10,17 +10,22 @@
     }
 
     &__content {
+        display: flex;
+        align-self: stretch;
         padding: 10px;
         width: 75%;
+        overflow: hidden;
     }
 
     &__svg {
-        overflow: hidden;
         width: 75%;
         margin: 0 auto;
+        transform-origin: 0px 0px;
+        transform: scale(1) translate(0px, 0px);
 
         svg {
             width: 100%;
+            height: auto;
         }
     }
 }
