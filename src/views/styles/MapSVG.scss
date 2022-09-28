@@ -1,0 +1,20 @@
+.scheme-metro-view {
+    position: absolute;
+    overflow: visible;
+
+    &__label {
+        cursor: pointer;
+        outline: 0;
+        pointer-events: all;
+        fill: black;
+
+        &:hover>text {
+            fill: red;
+            opacity: 1;
+        }
+    }
+}
+
+.scheme-metro-view--onclick {
+    pointer-events: none;
+}

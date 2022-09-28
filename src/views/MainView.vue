@@ -1,12 +1,16 @@
 <script>
 import './styles/MainView.scss'
+import './styles/MapSVG.scss'
 
 import Sidebar from '@/components/Sidebar/Sidebar.vue'
-import SchemeMetroBakuSVG from '@/components/Schemes/BakuMap.vue'
+import SchemeMetroBakuLinesSVG from '@/components/Schemes/Baku/BakuMapLines.vue'
+import SchemeMetroBakuStationsSVG from '@/components/Schemes/Baku/BakuMapStations.vue'
 
 export default {
     components: {
-        Sidebar, SchemeMetroBakuSVG
+        Sidebar, 
+        SchemeMetroBakuLinesSVG,
+        SchemeMetroBakuStationsSVG
     },
     mounted() {
         this.zoomInit()
@@ -47,9 +51,8 @@ export default {
                 if (delta > 0) {
                     if (this.zoomScale < 3) this.zoomScale *= 1.2
                 } else {
-                    if (this.zoomScale > 1) this.zoomScale /= 1.2
+                    if (this.zoomScale > 0.8) this.zoomScale /= 1.2
                 }
-
 
                 this.zoomPointX = e.clientX - xs * this.zoomScale
                 this.zoomPointY = e.clientY - ys * this.zoomScale
@@ -81,7 +84,8 @@ export default {
             <Sidebar />
             <div class="main__content">
                 <div class="main__svg" id="zoom">
-                    <SchemeMetroBakuSVG />
+                    <SchemeMetroBakuLinesSVG />
+                    <SchemeMetroBakuStationsSVG />
                 </div>
             </div>
         </div>
