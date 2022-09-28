@@ -2,11 +2,19 @@
 import './styles/MainView.scss'
 import './styles/MapSVG.scss'
 
+import { useStationsStore } from '@/stores/stations'
 import Sidebar from '@/components/Sidebar/Sidebar.vue'
 import SchemeMetroBakuLinesSVG from '@/components/Schemes/Baku/BakuMapLines.vue'
 import SchemeMetroBakuStationsSVG from '@/components/Schemes/Baku/BakuMapStations.vue'
 
 export default {
+    setup() {
+        const store = useStationsStore()
+
+        return {
+            store
+        }
+    },
     components: {
         Sidebar, 
         SchemeMetroBakuLinesSVG,
@@ -14,6 +22,7 @@ export default {
     },
     mounted() {
         this.zoomInit()
+        this.mapInit()
     },
     methods: {
         zoomInit() {
@@ -62,6 +71,57 @@ export default {
         },
         zoomSetTransform() {
             this.zoomView.style.transform = `translate(${this.zoomPointX}px, ${this.zoomPointY}px) scale(${this.zoomScale})`
+        },
+
+        mapInit() {
+            // const store = useStationsStore()
+            const stationsRender = {}
+
+            this.store.stations.map((item) => {
+                if (item.name in stationsRender) {
+                    stationsRender[item.name].points.push({
+                        id: item.id,
+                        x: item.view.point.x,
+                        y: item.view.point.y,
+                    })
+                    stationsRender[item.name].ids.push(item.id)
+                } else {
+                    stationsRender[item.name] = {
+                        ids: [item.id],
+                        name: item.name,
+                        text: {
+                            x: item.view.text.x,
+                            y: item.view.text.y,
+                        },
+                        points: [{
+                            id: item.id,
+                            x: item.view.point.x,
+                            y: item.view.point.y,
+                        }]
+                    }
+                }
+            })
+
+            for (let key in stationsRender) {
+                const item = stationsRender[key]
+
+                this.includeSVG += '<g class="scheme-metro-view__label">'
+
+                for (let k in item.points) {
+                    const point = item.points[k]
+                    const station = this.store.stations.filter(itm => {
+                        return point.id === itm.id
+                    })
+
+                    this.includeSVG += `<circle cx="${point.x}" cy="${point.y}" r="4" fill="${this.store.colors[station[0].line_id]}"/>`
+                }
+
+                this.includeSVG += `
+                <text x="${item.text.x}" y="${item.text.y}" font-weight="normal" font-size="10">
+                    <tspan x="${item.text.x}" y="${item.text.y}">${item.name}</tspan>
+                </text>`
+                this.includeSVG += "</g>\n"
+            }
         }
     },
     data() {
@@ -72,7 +132,9 @@ export default {
             zoomScale: 1,
             zoomPointX: 0,
             zoomPointY: 0,
-            zoomStart: {x: 0, y: 0}
+            zoomStart: {x: 0, y: 0},
+
+            includeSVG: '',
         }
     }
 }
@@ -85,7 +147,7 @@ export default {
             <div class="main__content">
                 <div class="main__svg" id="zoom">
                     <SchemeMetroBakuLinesSVG />
-                    <SchemeMetroBakuStationsSVG />
+                    <SchemeMetroBakuStationsSVG :include="includeSVG"/>
                 </div>
             </div>
         </div>
