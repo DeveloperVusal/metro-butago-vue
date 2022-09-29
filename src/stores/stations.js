@@ -32,7 +32,7 @@ export const useStationsStore = defineStore('stations', () => {
                     y: 178
                 },
                 text: {
-                    x: 246,
+                    x: 346,
                     y: 168
                 },
             }
