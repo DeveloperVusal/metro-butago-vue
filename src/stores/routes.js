@@ -3,8 +3,8 @@ import { defineStore } from 'pinia'
 
 export const useRoutesStore = defineStore('routes', () => {
     const route = ref({
-        from: 1, 
-        to: 25
+        from: null, 
+        to: null
     })
 
     const getRoute = computed(() => route.value)

@@ -2,12 +2,18 @@
 import './styles/MainView.scss'
 import './styles/MapSVG.scss'
 
-import { useStationsStore } from '@/stores/stations'
-import Sidebar from '@/components/Sidebar/Sidebar.vue'
 import SchemeMetroBakuLinesSVG from '@/components/Schemes/Baku/BakuMapLines.vue'
 import SchemeMetroBakuStationsSVG from '@/components/Schemes/Baku/BakuMapStations.vue'
 
+import { useStationsStore } from '@/stores/stations'
+import Sidebar from '@/components/Sidebar/Sidebar.vue'
+
 export default {
+    components: {
+        Sidebar, 
+        SchemeMetroBakuLinesSVG,
+        SchemeMetroBakuStationsSVG
+    },
     setup() {
         const store = useStationsStore()
 
@@ -15,18 +21,20 @@ export default {
             store
         }
     },
-    components: {
-        Sidebar, 
-        SchemeMetroBakuLinesSVG,
-        SchemeMetroBakuStationsSVG
-    },
     mounted() {
         this.zoomInit()
         this.mapInit()
     },
+    created() {
+        this.mapOnClicks() 
+    },
     methods: {
         zoomInit() {
             this.zoomView = document.getElementById(this.zoomViewId)
+            // this.zoomStart = { 
+            //     x: (this.zoomView.offsetLeft + this.zoomView.clientWidth) / 2, 
+            //     y: (this.zoomView.offsetTop + this.zoomView.clientHeight) / 2
+            // }
 
             this.zoomView.addEventListener('mousedown', (e) => {
                 e.preventDefault()
@@ -87,6 +95,7 @@ export default {
                     stationsRender[item.name].ids.push(item.id)
                 } else {
                     stationsRender[item.name] = {
+                        id: item.id,
                         ids: [item.id],
                         name: item.name,
                         text: {
@@ -104,8 +113,7 @@ export default {
 
             for (let key in stationsRender) {
                 const item = stationsRender[key]
-
-                this.includeSVG += '<g class="scheme-metro-view__label">'
+                const points = []
 
                 for (let k in item.points) {
                     const point = item.points[k]
@@ -113,15 +121,27 @@ export default {
                         return point.id === itm.id
                     })
 
-                    this.includeSVG += `<circle cx="${point.x}" cy="${point.y}" r="4" fill="${this.store.colors[station[0].line_id]}"/>`
+                    points.push({
+                        x: point.x,
+                        y: point.y,
+                        color: this.store.colors[station[0].line_id]
+                    })
                 }
 
-                this.includeSVG += `
-                <text x="${item.text.x}" y="${item.text.y}" font-weight="normal" font-size="10">
-                    <tspan x="${item.text.x}" y="${item.text.y}">${item.name}</tspan>
-                </text>`
-                this.includeSVG += "</g>\n"
+                this.includeSVG.push({
+                    id: item.id,
+                    name: item.name,
+                    text_x: item.text.x,
+                    text_y: item.text.y,
+                    points
+                })
             }
+        },
+
+        mapOnClicks() {
+            const stations = document.querySelectorAll('.scheme-metro-view--onclick .scheme-metro-view__label')
+
+            console.dir(stations)
         }
     },
     data() {
@@ -134,7 +154,7 @@ export default {
             zoomPointY: 0,
             zoomStart: {x: 0, y: 0},
 
-            includeSVG: '',
+            includeSVG: [],
         }
     }
 }
