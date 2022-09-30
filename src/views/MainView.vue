@@ -7,12 +7,14 @@ import SchemeMetroBakuStationsSVG from '@/components/Schemes/Baku/BakuMapStation
 
 import { useStationsStore } from '@/stores/stations'
 import Sidebar from '@/components/Sidebar/Sidebar.vue'
+import DropDown from '@/components/UIElements/DropDown.vue'
 
 export default {
     components: {
-        Sidebar, 
+        Sidebar,
         SchemeMetroBakuLinesSVG,
-        SchemeMetroBakuStationsSVG
+        SchemeMetroBakuStationsSVG,
+        DropDown
     },
     setup() {
         const store = useStationsStore()
@@ -24,9 +26,7 @@ export default {
     mounted() {
         this.zoomInit()
         this.mapInit()
-    },
-    created() {
-        this.mapOnClicks() 
+        this.dropdownHide()
     },
     methods: {
         zoomInit() {
@@ -122,6 +122,7 @@ export default {
                     })
 
                     points.push({
+                        id: point.id,
                         x: point.x,
                         y: point.y,
                         color: this.store.colors[station[0].line_id]
@@ -138,10 +139,44 @@ export default {
             }
         },
 
-        mapOnClicks() {
-            const stations = document.querySelectorAll('.scheme-metro-view--onclick .scheme-metro-view__label')
+        dropdownHideView() {
+            const elDropdownView = document.querySelector('.main__content')
+            const elDropdown = document.querySelector('.dropdown')
 
-            console.dir(stations)
+            elDropdownView.addEventListener('click', (e) => {
+                if (
+                    !e.target.closest('.dropdown') && 
+                    this.isDropDown
+                ) {
+                    elDropdown.style.opacity = 0
+                    elDropdown.style.top = '-5000px'
+
+                    this.store.setIsActiveDropdown(false)
+                }
+
+                console.log(e.target.closest('.dropdown'), this.isDropDown)
+
+                if (e.target.closest('.dropdown') && !this.isDropDown) {
+                    elDropdown.style.opacity = 0
+                    elDropdown.style.top = '-5000px'
+                }
+            })
+        },
+        dropdownHide() {
+            const elDropdown = document.querySelector('.dropdown')
+
+            elDropdown.style.opacity = 0
+            elDropdown.style.top = '-5000px'
+        }
+    },
+    watch: {
+        'store.getIsActiveDropdown': {
+            handler(newVal) {
+                this.isDropDown = newVal
+
+                if (!newVal) this.dropdownHide()
+            },
+            deep: true
         }
     },
     data() {
@@ -155,6 +190,8 @@ export default {
             zoomStart: {x: 0, y: 0},
 
             includeSVG: [],
+
+            isDropDown: false
         }
     }
 }
@@ -169,6 +206,7 @@ export default {
                     <SchemeMetroBakuLinesSVG />
                     <SchemeMetroBakuStationsSVG :include="includeSVG"/>
                 </div>
+                <DropDown />
             </div>
         </div>
     </main>

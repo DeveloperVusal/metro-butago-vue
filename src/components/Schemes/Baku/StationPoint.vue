@@ -1,5 +1,6 @@
 <script >
 import { useRoutesStore } from '@/stores/routes'
+import { useStationsStore } from '@/stores/stations'
 
 export default {
     props: [
@@ -7,22 +8,42 @@ export default {
         'name',
         'text_x',
         'text_y',
-        'ponts'
+        'points'
     ],
     setup() {
         const store = useRoutesStore()
+        const store2 = useStationsStore()
 
         return {
-            store
+            store, store2
         }
     },
     methods: {
-        fnSelectedStation() {
-            // console.log(this.id, this.store.getRoute)
-            if (this.store.getRoute.from) {
-                this.store.setRoute(this.store.getRoute.from, this.id)
+        fnSelectedStation(event, stations) {
+            if (stations >= 2) {
+                const elDropdown = document.querySelector('.dropdown')
+                const mouseX = event.clientX, mouseY = event.clientY
+                const newPoints = this.points.map(itm => {
+                    return {
+                        id: itm.id,
+                        name: this.name,
+                        color: itm.color
+                    }
+                })
+
+                this.store2.setDropdown(newPoints)
+
+                elDropdown.style.top = `${mouseY + 15}px`
+                elDropdown.style.left = `${mouseX - (elDropdown.offsetWidth / 2)}px`
+                elDropdown.style.opacity = 1
+
+                this.store2.setIsActiveDropdown(true)
             } else {
-                this.store.setRoute(this.id, null)
+                if (this.store.getRoute.from) {
+                    this.store.setRoute(this.store.getRoute.from, this.id)
+                } else {
+                    this.store.setRoute(this.id, null)
+                }
             }
         }
     }
@@ -30,8 +51,8 @@ export default {
 </script>
 
 <template>
-    <g class="scheme-metro-view__label" @click="fnSelectedStation()">
-        <circle v-for="point in ponts" :cx="point.x" :cy="point.y" r="4" :fill="point.color" :key="point.id" />
+    <g class="scheme-metro-view__label" @click="fnSelectedStation($event, points.length)">
+        <circle v-for="point in points" :cx="point.x" :cy="point.y" r="4" :fill="point.color" :key="point.id" />
 
         <text :x="text_x" :y="text_y" font-weight="normal" font-size="10">
             <tspan :x="text_x" :y="text_y">{{ name }}</tspan>

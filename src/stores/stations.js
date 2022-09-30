@@ -1,10 +1,12 @@
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
 
 export const useStationsStore = defineStore('stations', () => {
     const lines = ref([])
     const stations = ref([])
     const colors = ref({})
+    const dropdown = ref([])
+    const isActiveDropdown = ref(false)
 
     colors.value = {
         1: '#04AC5F',
@@ -592,5 +594,25 @@ export const useStationsStore = defineStore('stations', () => {
         },
     ]
 
-    return { lines, colors, stations }
+    const getDropdown = computed(() => dropdown.value)
+
+    const setDropdown = (payload) => {
+        dropdown.value = payload
+    }
+
+    const getIsActiveDropdown = computed(() => isActiveDropdown.value)
+
+    const setIsActiveDropdown = (value) => {
+        setTimeout(() => {
+            isActiveDropdown.value = value
+        }, 0)
+    }
+
+    return { 
+        lines, 
+        colors, 
+        stations, 
+        getIsActiveDropdown, setIsActiveDropdown, 
+        getDropdown, setDropdown
+    }
 })

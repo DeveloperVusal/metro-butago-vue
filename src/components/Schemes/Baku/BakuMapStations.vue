@@ -6,9 +6,6 @@ export default {
     components: {
         StationPoint
     },
-    mounted() {
-        console.log(this.include)
-    }
 }
 </script>
 
@@ -20,8 +17,8 @@ export default {
             :name="item.name"
             :text_x="item.text_x"
             :text_y="item.text_y"
-            :ponts="item.ponts"
-            :key="item.id" 
+            :points="item.points"
+            :key="item.id"
         />
     </svg>
 </template>
