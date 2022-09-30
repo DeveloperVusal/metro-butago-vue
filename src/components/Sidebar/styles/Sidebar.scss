@@ -78,6 +78,7 @@
                         display: block;
                         width: calc(100% - 12px);
                         padding-left: .5rem;
+                        position: relative;
         
                         input {
                             display: block;
@@ -101,6 +102,23 @@
 
                             &:focus {
                                 border: 1px solid blue;
+                            }
+                        }
+
+                        svg {
+                            width: 11px;
+                            height: 11px;
+                            position: absolute;
+                            top: calc(26px / 2);
+                            right: 1.5rem;
+                            cursor: pointer;
+
+                            g {
+                                fill: #b8b8b8;
+                            }
+
+                            &:hover g {
+                                fill: #888;
                             }
                         }
                     }
