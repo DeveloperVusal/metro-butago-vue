@@ -7,6 +7,14 @@ export const useStationsStore = defineStore('stations', () => {
     const colors = ref({})
     const dropdown = ref([])
     const isActiveDropdown = ref(false)
+    const times = ref({})
+
+    times.value = {
+        short: 3,
+        long: 4,
+        transfer: 2.5,
+        shortTransfer: 1.3
+    }
 
     colors.value = {
         1: '#04AC5F',
@@ -29,6 +37,7 @@ export const useStationsStore = defineStore('stations', () => {
             name: 'Dərnəgül',
             line_id: 1,
             move: [2],
+            graph: {2: times.value.short},
             view: {
                 point: {
                     x: 368,
@@ -46,6 +55,7 @@ export const useStationsStore = defineStore('stations', () => {
             name: 'Azadlıq prospekti',
             line_id: 1,
             move: [3, 1],
+            graph: {3: times.value.short, 1: times.value.short},
             view: {
                 point: {
                     x: 287,
@@ -63,6 +73,7 @@ export const useStationsStore = defineStore('stations', () => {
             name: 'Nəsimi',
             line_id: 1,
             move: [4, 2],
+            graph: {4: times.value.short, 2: times.value.short},
             view: {
                 point: {
                     x: 192,
@@ -80,6 +91,7 @@ export const useStationsStore = defineStore('stations', () => {
             name: 'Memar Əcəmi',
             line_id: 1,
             move: [5, 3, 36],
+            graph: {5: times.value.short, 3: times.value.short, 36: times.value.transfer},
             transfer: [ 36 ],
             view: {
                 point: {
@@ -99,6 +111,7 @@ export const useStationsStore = defineStore('stations', () => {
             name: '20 Yanvar',
             line_id: 1,
             move: [6, 4],
+            graph: {6: times.value.short, 4: times.value.short},
             view: {
                 point: {
                     x: 131,
@@ -116,6 +129,7 @@ export const useStationsStore = defineStore('stations', () => {
             name: 'İnşaatçılar',
             line_id: 1,
             move: [7, 5],
+            graph: {7: times.value.short, 5: times.value.short},
             view: {
                 point: {
                     x: 131,
@@ -133,6 +147,7 @@ export const useStationsStore = defineStore('stations', () => {
             name: 'Elmlər Akademiyası',
             line_id: 1,
             move: [8, 6],
+            graph: {8: times.value.long, 6: times.value.short},
             view: {
                 point: {
                     x: 136,
@@ -150,6 +165,7 @@ export const useStationsStore = defineStore('stations', () => {
             name: 'Nizami',
             line_id: 1,
             move: [9, 7],
+            graph: {9: times.value.long, 7: times.value.long},
             view: {
                 point: {
                     x: 208,
@@ -167,6 +183,7 @@ export const useStationsStore = defineStore('stations', () => {
             name: '28 May',
             line_id: 1,
             move: [10, 8, 34, 22],
+            graph: {10: times.value.short, 8: times.value.long, 34: times.value.transfer, 22: times.value.transfer},
             transfer: [ 22, 34 ],
             view: {
                 point: {
@@ -185,7 +202,8 @@ export const useStationsStore = defineStore('stations', () => {
             id: 10,
             name: 'Gənclik',
             line_id: 1,
-            move: [11, 9],
+            move: [11, 9, 23],
+            graph: {11: times.value.short, 9: times.value.short, 23: times.value.shortTransfer},
             view: {
                 point: {
                     x: 396,
@@ -203,6 +221,7 @@ export const useStationsStore = defineStore('stations', () => {
             name: 'Nariman Narimanov',
             line_id: 1,
             move: [12, 13, 10, 24],
+            graph: {12: times.value.short, 13: times.value.short, 10: times.value.short, 24: times.value.shortTransfer},
             transfer: [ 24 ],
             view: {
                 point: {
@@ -221,7 +240,8 @@ export const useStationsStore = defineStore('stations', () => {
             id: 12,
             name: 'Bakmil',
             line_id: 1,
-            move: [11],
+            move: [11, 25],
+            graph: {11: times.value.short, 25: times.value.shortTransfer},
             view: {
                 point: {
                     x: 468,
@@ -238,7 +258,8 @@ export const useStationsStore = defineStore('stations', () => {
             id: 13,
             name: 'Ulduz',
             line_id: 1,
-            move: [14, 11],
+            move: [14, 11, 26],
+            graph: {14: times.value.short, 11: times.value.short, 26: times.value.shortTransfer},
             view: {
                 point: {
                     x: 519,
@@ -255,7 +276,8 @@ export const useStationsStore = defineStore('stations', () => {
             id: 14,
             name: 'Koroğlu',
             line_id: 1,
-            move: [15, 13],
+            move: [15, 13, 27],
+            graph: {15: times.value.short, 13: times.value.short, 27: times.value.shortTransfer},
             view: {
                 point: {
                     x: 570,
@@ -272,7 +294,8 @@ export const useStationsStore = defineStore('stations', () => {
             id: 15,
             name: 'Qara Qarayev',
             line_id: 1,
-            move: [16, 14],
+            move: [16, 14, 28],
+            graph: {16: times.value.short, 14: times.value.short, 28: times.value.shortTransfer},
             view: {
                 point: {
                     x: 637,
@@ -289,7 +312,8 @@ export const useStationsStore = defineStore('stations', () => {
             id: 16,
             name: 'Neftçilər',
             line_id: 1,
-            move: [17, 15],
+            move: [17, 15, 29],
+            graph: {17: times.value.short, 15: times.value.short, 29: times.value.shortTransfer},
             view: {
                 point: {
                     x: 670,
@@ -306,7 +330,8 @@ export const useStationsStore = defineStore('stations', () => {
             id: 17,
             name: 'Xalqlar Dostluğu',
             line_id: 1,
-            move: [18, 16],
+            move: [18, 16, 30],
+            graph: {18: times.value.short, 16: times.value.short, 30: times.value.shortTransfer},
             view: {
                 point: {
                     x: 698,
@@ -323,7 +348,8 @@ export const useStationsStore = defineStore('stations', () => {
             id: 18,
             name: 'Əhmədli',
             line_id: 1,
-            move: [19, 17],
+            move: [19, 17, 31],
+            graph: {19: times.value.short, 17: times.value.short, 31: times.value.shortTransfer},
             view: {
                 point: {
                     x: 727,
@@ -340,7 +366,8 @@ export const useStationsStore = defineStore('stations', () => {
             id: 19,
             name: 'Həzi Aslanov',
             line_id: 1,
-            move: [18],
+            move: [18, 32],
+            graph: {18: times.value.short, 32: times.value.shortTransfer},
             view: {
                 point: {
                     x: 756,
@@ -360,6 +387,7 @@ export const useStationsStore = defineStore('stations', () => {
             name: 'İçərişəhər',
             line_id: 2,
             move: [21],
+            graph: {21: times.value.short},
             view: {
                 point: {
                     x: 186,
@@ -377,6 +405,7 @@ export const useStationsStore = defineStore('stations', () => {
             name: 'Sahil',
             line_id: 2,
             move: [22, 20],
+            graph: {22: times.value.short, 20: times.value.short},
             view: {
                 point: {
                     x: 248,
@@ -394,6 +423,7 @@ export const useStationsStore = defineStore('stations', () => {
             name: '28 May',
             line_id: 2,
             move: [23, 21, 34, 9],
+            graph: {23: times.value.short, 21: times.value.short, 34: times.value.transfer, 9: times.value.shortTransfer},
             transfer: [ 34, 9 ],
             view: {
                 point: {
@@ -412,7 +442,8 @@ export const useStationsStore = defineStore('stations', () => {
             id: 23,
             name: 'Gənclik',
             line_id: 2,
-            move: [24, 22],
+            move: [24, 22, 10],
+            graph: {24: times.value.short, 22: times.value.short, 10: times.value.shortTransfer},
             view: {
                 point: {
                     x: 403,
@@ -430,6 +461,7 @@ export const useStationsStore = defineStore('stations', () => {
             name: 'Nariman Narimanov',
             line_id: 2,
             move: [25, 26, 23, 11],
+            graph: {25: times.value.short, 26: times.value.short, 23: times.value.short, 11: times.value.shortTransfer},
             transfer: [ 11 ],
             view: {
                 point: {
@@ -448,7 +480,8 @@ export const useStationsStore = defineStore('stations', () => {
             id: 25,
             name: 'Bakmil',
             line_id: 2,
-            move: [24],
+            move: [24, 12],
+            graph: {24: times.value.short, 12: times.value.shortTransfer},
             view: {
                 point: {
                     x: 478,
@@ -465,7 +498,8 @@ export const useStationsStore = defineStore('stations', () => {
             id: 26,
             name: 'Ulduz',
             line_id: 2,
-            move: [27, 24],
+            move: [27, 24, 13],
+            graph: {27: times.value.short, 24: times.value.short, 13: times.value.shortTransfer},
             view: {
                 point: {
                     x: 525,
@@ -482,7 +516,8 @@ export const useStationsStore = defineStore('stations', () => {
             id: 27,
             name: 'Koroğlu',
             line_id: 2,
-            move: [28, 26],
+            move: [28, 26, 14],
+            graph: {28: times.value.short, 26: times.value.short, 14: times.value.shortTransfer},
             view: {
                 point: {
                     x: 570,
@@ -499,7 +534,8 @@ export const useStationsStore = defineStore('stations', () => {
             id: 28,
             name: 'Qara Qarayev',
             line_id: 2,
-            move: [29, 27],
+            move: [29, 27, 15],
+            graph: {29: times.value.short, 27: times.value.short, 15: times.value.shortTransfer},
             view: {
                 point: {
                     x: 630,
@@ -516,7 +552,8 @@ export const useStationsStore = defineStore('stations', () => {
             id: 29,
             name: 'Neftçilər',
             line_id: 2,
-            move: [30, 28],
+            move: [30, 28, 16],
+            graph: {30: times.value.short, 28: times.value.short, 16: times.value.shortTransfer},
             view: {
                 point: {
                     x: 663,
@@ -533,7 +570,8 @@ export const useStationsStore = defineStore('stations', () => {
             id: 30,
             name: 'Xalqlar Dostluğu',
             line_id: 2,
-            move: [31, 29],
+            move: [31, 29, 17],
+            graph: {31: times.value.short, 29: times.value.short, 17: times.value.shortTransfer},
             view: {
                 point: {
                     x: 691,
@@ -550,7 +588,8 @@ export const useStationsStore = defineStore('stations', () => {
             id: 31,
             name: 'Əhmədli',
             line_id: 2,
-            move: [32, 30],
+            move: [32, 30, 18],
+            graph: {32: times.value.short, 30: times.value.short, 18: times.value.shortTransfer},
             view: {
                 point: {
                     x: 720,
@@ -567,7 +606,8 @@ export const useStationsStore = defineStore('stations', () => {
             id: 32,
             name: 'Həzi Aslanov',
             line_id: 2,
-            move: [31],
+            move: [31, 19],
+            graph: {31: times.value.short, 19: times.value.shortTransfer},
             view: {
                 point: {
                     x: 749,
@@ -587,6 +627,7 @@ export const useStationsStore = defineStore('stations', () => {
             name: 'Şah İsmayıl Xətai',
             line_id: 4,
             move: [34],
+            graph: {34: times.value.short},
             view: {
                 point: {
                     x: 441,
@@ -604,6 +645,7 @@ export const useStationsStore = defineStore('stations', () => {
             name: 'Cəfər Cabbarlı',
             line_id: 4,
             move: [33, 9, 22],
+            graph: {33: times.value.short, 9: times.value.transfer, 22: times.value.transfer},
             transfer: [ 9, 22 ],
             view: {
                 point: {
@@ -625,6 +667,7 @@ export const useStationsStore = defineStore('stations', () => {
             name: 'Avtovağzal',
             line_id: 3,
             move: [36],
+            graph: {36: times.value.short},
             view: {
                 point: {
                     x: 64,
@@ -642,6 +685,7 @@ export const useStationsStore = defineStore('stations', () => {
             name: 'Memar Əcəmi',
             line_id: 3,
             move: [35, 37, 4],
+            graph: {35: times.value.short, 37: times.value.short, 4: times.value.transfer},
             transfer: [ 4 ],
             view: {
                 point: {
@@ -661,6 +705,7 @@ export const useStationsStore = defineStore('stations', () => {
             name: '8 Noyabr',
             line_id: 3,
             move: [36],
+            graph: {36: times.value.short},
             view: {
                 point: {
                     x: 178,

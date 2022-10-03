@@ -149,4 +149,30 @@
             }
         }
     }
+
+    &__times {
+        display: flex;
+        margin-top: 2rem;
+
+        .times {
+            display: flex;
+            flex-direction: column;
+            
+
+            &__h1 {
+                font-weight: bold;
+                font-size: 12pt;
+            }
+
+            &__time {
+                color: #555;
+                margin-top: 0.5rem;
+                font-size: 11pt;
+
+                span {
+                    font-weight: bold;
+                }
+            }
+        }
+    }
 }

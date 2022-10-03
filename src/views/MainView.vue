@@ -30,7 +30,7 @@ export default {
     mounted() {
         this.zoomInit()
         this.mapInit()
-        this.dropdownHide()
+        this.dropdownHideView()
     },
     methods: {
         zoomInit() {
@@ -182,10 +182,24 @@ export default {
         convertToGraph(data) {
             let result = {}
 
-            for (let k in data) {
-                let item = data[k]
+            for (let i in data) {
+                const item = data[i]
 
-                result[item.id] = [...item.move]
+                /*if (item.hasOwnProperty('transfer')) {
+                    for (let j in item.transfer) {
+                        const transfetId = item.transfer[j]
+
+                        item.move.splice(item.move.findIndex(itm => itm == transfetId), 1)
+                    }
+
+                    for (let j in item.transfer) {
+                        const transfetId = item.transfer[j]
+
+                        item.move.unshift(transfetId)
+                    }
+                }*/
+
+                result[item.id] = item.graph
             }
 
             return result
@@ -204,18 +218,6 @@ export default {
             this.graph.visits.push(v)
 
             // исследуем всех соседей (ближайшие соседние вершины) v
-            // check transfer if point > 1
-            // if (adj[v].length > 1) {
-            //     for (let indx = 0; indx < adj[v].length; indx++) {
-            //         const point = adj[v][indx]
-            //         const station = this.store.stations.filter(itm => itm.id === point)[0]
-
-            //         if (station.hasOwnProperty('transfer')) {
-            //             adj[v].unshift(...adj[v].splice(indx, 1))
-            //         }
-            //     }
-            // }
-
             for (let neighbor of adj[v]) {
                 // если сосед не посещался
                 if (!this.graph.visits.includes(neighbor)) {
@@ -235,12 +237,79 @@ export default {
             // если от v до t добраться невозможно
             return false
         },
+        dijkstraGraph(graph, from, to) {
+            const solutions = (function(graph, s) {
+                let solutions = {};
+                solutions[s] = [];
+                solutions[s].dist = 0;
+                
+                while(true) {
+                    let parent = null;
+                    let nearest = null;
+                    let dist = Infinity;
+                
+                    //for each existing solution
+                    for(let n in solutions) {
+                        if(!solutions[n]) continue
+            
+                        let ndist = solutions[n].dist;
+                        let adj = graph[n];
+            
+                        //for each of its adjacent nodes...
+                        for(let a in adj) {
+                            //without a solution already...
+                            if(solutions[a]) continue
+            
+                            //choose nearest node with lowest *total* cost
+                            let d = adj[a] + ndist;
+            
+                            if(d < dist) {
+                                //reference parent
+                                parent = solutions[n]
+                                nearest = a
+                                dist = d
+                            }
+                        }
+                    }
+                    
+                    //no more solutions
+                    if(dist === Infinity) break
+                    
+                    //extend parent's solution path
+                    solutions[nearest] = parent.concat(nearest)
+                    //extend parent's cost
+                    solutions[nearest].dist = dist
+                }
+                
+                return solutions
+            })(graph, from)
+            const paths = []
+
+            for(let s in solutions) {
+                if(!solutions[s]) continue;
+
+                const endPoint = solutions[s][solutions[s].length - 1]
+
+                if (endPoint == to) {
+                    paths.push({
+                        solution: [from, ...solutions[s].map(id => Number(id))],
+                        dist: solutions[s].dist
+                    })
+                }
+            }
+
+            return paths
+        },
 
         renderRoutes() {
             this.graph.visits = []
             this.graph.path = []
+            this.graph.points = this.convertToGraph(this.store.stations)
 
-            this.dfsGraph(this.convertToGraph(this.store.stations), this.store2.getRoute.from , this.store2.getRoute.to)
+            let routes = this.dijkstraGraph(this.graph.points, this.store2.getRoute.from , this.store2.getRoute.to)
+
+            this.graph.path = routes[0].solution
+            this.store2.setPathTimeMin(routes[0].dist)
 
             this.graph.path.unshift(this.store2.getRoute.from)
             this.routesSVG = ''
@@ -343,6 +412,7 @@ export default {
                     })
 
                     this.isRenderRoute = false
+                    this.store2.setPathTimeMin(0)
                 }
             },
             deep: true
@@ -372,6 +442,7 @@ export default {
             isDropDown: false,
             isRenderRoute: false,
             graph: {
+                points: {},
                 visits: [],
                 path: [],
             }

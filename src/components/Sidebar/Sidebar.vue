@@ -1,6 +1,4 @@
 <script>
-import { watch } from 'vue'
-
 import './styles/Sidebar.scss'
 
 import IconSwapSVG from '@/components/Icons/IconSwap.vue'
@@ -23,13 +21,22 @@ export default {
             store2
         }
     },
-    created() {
-        watch(this.store.getRoute, (route) => {
-            this.routeLoad(route)
-        })
-    },
     mounted() {
         this.routeLoad(this.store.getRoute)
+    },
+    watch: {
+        'store.getRoute': {
+            handler(route) {
+                this.routeLoad(route)
+            },
+            deep: true
+        },
+        'store.getPathTimeMin': {
+            handler(time) {
+                this.route_time = time
+            },
+            deep: true
+        }
     },
     methods: {
         routeLoad(route) {
@@ -63,10 +70,11 @@ export default {
                     color:  this.store2.colors[to[0].line_id]
                 }
             }
-        }
+        },
     },
     data() {
         return {
+            route_time: 0,
             route_from: {
                 name: '',
                 color: ''
@@ -87,10 +95,6 @@ export default {
                 <div class="logo">
                     <img src="@/assets/images/logo-text.svg" alt="">
                 </div>
-                <select class="sidebar__city">
-                    <option value="AZ:Baku">Baku</option>
-                    <option value="TR:Istanbul">Istanbul</option>
-                </select>
             </div>
         </div>
 
@@ -103,7 +107,7 @@ export default {
                             :style="(route_from.color) ? 'background-color: ' + route_from.color : ''"
                         ></div>
                         <div class="points__input">
-                            <input type="text" placeholder="From" :value="route_from.name">
+                            <input type="text" placeholder="Hardan" :value="route_from.name">
                             <IconCloseSVG :from="null" :to="store.getRoute.to" />
                         </div>
                     </div>
@@ -113,7 +117,7 @@ export default {
                             :style="(route_to.color) ? 'background-color: ' + route_to.color : ''"
                         ></div>
                         <div class="points__input">
-                            <input type="text" placeholder="To" :value="route_to.name">
+                            <input type="text" placeholder="Haraya" :value="route_to.name">
                             <IconCloseSVG :to="null" :from="store.getRoute.from" />
                         </div>
                     </div>
@@ -123,6 +127,15 @@ export default {
                     @click="store.setReverseRoute()"
                 >
                     <IconSwapSVG />
+                </div>
+            </div>
+        </div>
+
+        <div class="sidebar__times" v-if="route_time > 0">
+            <div class="times sidebar__center">
+                <div class="times__h1">Çatma müddəti</div>
+                <div class="times__time">
+                    <span>{{ route_time }}</span> dəqiqə
                 </div>
             </div>
         </div>
