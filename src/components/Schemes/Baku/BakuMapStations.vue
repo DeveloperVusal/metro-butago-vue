@@ -18,6 +18,7 @@ export default {
             :text_x="item.text_x"
             :text_y="item.text_y"
             :points="item.points"
+            :opacity="item.opacity"
             :key="item.id"
         />
     </svg>

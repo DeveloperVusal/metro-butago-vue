@@ -8,7 +8,8 @@ export default {
         'name',
         'text_x',
         'text_y',
-        'points'
+        'points',
+        'opacity'
     ],
     setup() {
         const store = useRoutesStore()
@@ -51,8 +52,19 @@ export default {
 </script>
 
 <template>
-    <g class="scheme-metro-view__label" @click="fnSelectedStation($event, points.length)">
-        <circle v-for="point in points" :cx="point.x" :cy="point.y" r="4" :fill="point.color" :key="point.id" />
+    <g 
+        :class="`scheme-metro-view__label ${opacity ? 'scheme-metro-view__label--opacity' : ''}`" 
+        @click="fnSelectedStation($event, points.length)"
+    >
+        <circle 
+            v-for="point in points" 
+            :cx="point.x" 
+            :cy="point.y" 
+            r="4" 
+            :fill="point.color" 
+            :key="point.id" 
+            :opacity="point.opacity ? '0.3' : '1'"
+        />
 
         <text :x="text_x" :y="text_y" font-weight="normal" font-size="10">
             <tspan :x="text_x" :y="text_y">{{ name }}</tspan>

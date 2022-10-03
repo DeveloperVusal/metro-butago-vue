@@ -4,8 +4,10 @@ import './styles/MapSVG.scss'
 
 import SchemeMetroBakuLinesSVG from '@/components/Schemes/Baku/BakuMapLines.vue'
 import SchemeMetroBakuStationsSVG from '@/components/Schemes/Baku/BakuMapStations.vue'
+import SchemeMetroBakuRoutesSVG from '@/components/Schemes/Baku/BakuMapRoutes.vue'
 
 import { useStationsStore } from '@/stores/stations'
+import { useRoutesStore } from '@/stores/routes'
 import Sidebar from '@/components/Sidebar/Sidebar.vue'
 import DropDown from '@/components/UIElements/DropDown.vue'
 
@@ -14,13 +16,15 @@ export default {
         Sidebar,
         SchemeMetroBakuLinesSVG,
         SchemeMetroBakuStationsSVG,
+        SchemeMetroBakuRoutesSVG,
         DropDown
     },
     setup() {
         const store = useStationsStore()
+        const store2 = useRoutesStore()
 
         return {
-            store
+            store, store2
         }
     },
     mounted() {
@@ -93,11 +97,14 @@ export default {
                         y: item.view.point.y,
                     })
                     stationsRender[item.name].ids.push(item.id)
+                    stationsRender[item.name].onepoint = true
+                    this.onePointStations[item.name].push(item.id)
                 } else {
                     stationsRender[item.name] = {
                         id: item.id,
                         ids: [item.id],
                         name: item.name,
+                        onepoint: false,
                         text: {
                             x: item.view.text.x,
                             y: item.view.text.y,
@@ -108,12 +115,14 @@ export default {
                             y: item.view.point.y,
                         }]
                     }
+                    this.onePointStations[item.name] = [item.id]
                 }
             })
 
             for (let key in stationsRender) {
                 const item = stationsRender[key]
                 const points = []
+                let onepoint = false
 
                 for (let k in item.points) {
                     const point = item.points[k]
@@ -125,7 +134,8 @@ export default {
                         id: point.id,
                         x: point.x,
                         y: point.y,
-                        color: this.store.colors[station[0].line_id]
+                        color: this.store.colors[station[0].line_id],
+                        opacity: false,
                     })
                 }
 
@@ -134,7 +144,9 @@ export default {
                     name: item.name,
                     text_x: item.text.x,
                     text_y: item.text.y,
-                    points
+                    points,
+                    opacity: false,
+                    onepoint: item.onepoint,
                 })
             }
         },
@@ -154,8 +166,6 @@ export default {
                     this.store.setIsActiveDropdown(false)
                 }
 
-                console.log(e.target.closest('.dropdown'), this.isDropDown)
-
                 if (e.target.closest('.dropdown') && !this.isDropDown) {
                     elDropdown.style.opacity = 0
                     elDropdown.style.top = '-5000px'
@@ -167,6 +177,145 @@ export default {
 
             elDropdown.style.opacity = 0
             elDropdown.style.top = '-5000px'
+        },
+
+        convertToGraph(data) {
+            let result = {}
+
+            for (let k in data) {
+                let item = data[k]
+
+                result[item.id] = [...item.move]
+            }
+
+            return result
+        },
+        dfsGraph(adj, v, t) {
+            // adj - смежный список
+            // v - посещенный узел (вершина)
+            // t - пункт назначения
+
+            // это общие случаи
+            // либо достигли пункта назначения, либо уже посещали узел
+            if (v === t) return true
+            if (this.graph.visits.includes(v)) return false
+
+            // помечаем узел как посещенный
+            this.graph.visits.push(v)
+
+            // исследуем всех соседей (ближайшие соседние вершины) v
+            // check transfer if point > 1
+            // if (adj[v].length > 1) {
+            //     for (let indx = 0; indx < adj[v].length; indx++) {
+            //         const point = adj[v][indx]
+            //         const station = this.store.stations.filter(itm => itm.id === point)[0]
+
+            //         if (station.hasOwnProperty('transfer')) {
+            //             adj[v].unshift(...adj[v].splice(indx, 1))
+            //         }
+            //     }
+            // }
+
+            for (let neighbor of adj[v]) {
+                // если сосед не посещался
+                if (!this.graph.visits.includes(neighbor)) {
+                    this.graph.path.push(neighbor)
+
+                    // двигаемся по пути и проверяем, не достигли ли мы пункта назначения
+                    let reached = this.dfsGraph(adj, neighbor, t)
+
+                    // возвращаем true, если достигли
+                    if (reached) return true
+                }
+            }
+            
+            this.graph.path = this.graph.path.filter((itm) => {
+                return (itm !== v)
+            })
+            // если от v до t добраться невозможно
+            return false
+        },
+
+        renderRoutes() {
+            this.graph.visits = []
+            this.graph.path = []
+
+            this.dfsGraph(this.convertToGraph(this.store.stations), this.store2.getRoute.from , this.store2.getRoute.to)
+
+            this.graph.path.unshift(this.store2.getRoute.from)
+            this.routesSVG = ''
+            this.graph.path.forEach((itm, indx) => {
+                // const prev = (indx > 0) ? (this.store.stations.filter(item => item.id === this.graph.path[indx - 1])[0]) : null
+                const station = this.store.stations.filter(item => item.id === itm)[0];
+                const next = (indx < this.graph.path.length) ? (this.store.stations.filter(item => item.id === this.graph.path[indx + 1])[0]) : null
+
+                if ((indx + 1) < this.graph.path.length) {
+                    if (
+                        station.view.transfer !== undefined &&
+                        station.transfer.includes(next.id)
+                    ) {                        
+                        for (let i in station.view.transfer) {
+                            let itmTransfer = station.view.transfer[i]
+
+                            this.routesSVG += `<use xlink:href="#tr-${station.view.render}-${itmTransfer}"></use>`
+                            this.routesSVG += `<use xlink:href="#tr-${itmTransfer}-${station.view.render}"></use>`
+                        }
+                    }
+                }
+
+                if (next != null) {
+                    for (let key in station.move) {
+                        const move = station.move[key]
+
+                        if (move === next.id) {
+                            this.routesSVG += `<use xlink:href="#${station.view.render}-${next.view.render}"></use>`
+                            this.routesSVG += `<use xlink:href="#${next.view.render}-${station.view.render}"></use>`
+                        }
+                    }
+                }
+
+                this.routesSVG += `<use xlink:href="#${station.view.render}_"></use>`
+                this.routesSVG += `<use xlink:href="#${station.view.render}"></use>`
+
+                return {
+                    id: itm,
+                    name: station.name,
+                    line_id: station.line_id,
+                }
+            })
+
+            this.includeSVG = this.includeSVG.map((itm) => {
+                itm.opacity = true
+
+                if (this.graph.path.includes(itm.id)) itm.opacity = false
+                
+
+                itm.points = itm.points.map((item) => {
+                    if (!this.graph.path.includes(item.id)) item.opacity = true
+                    
+                    return item
+                })
+
+                return itm
+            })
+
+            this.includeSVG = this.includeSVG.map((itm) => {
+                if (itm.opacity && this.onePointStations[itm.name].length > 1) {
+                    for (let key in this.onePointStations[itm.name]) {
+                        const item = this.onePointStations[itm.name][key]
+
+                        if (this.graph.path.includes(item)) {
+                            itm.opacity = false
+                            break
+                        }
+                    }
+                }
+
+                return itm
+            })
+            
+
+            this.isRenderRoute = true
         }
     },
     watch: {
@@ -175,6 +324,33 @@ export default {
                 this.isDropDown = newVal
 
                 if (!newVal) this.dropdownHide()
+            },
+            deep: true
+        },
+        'store2.getRoute': {
+            handler(route) {
+                if (!route.from || !route.to) {
+                    this.includeSVG = this.includeSVG.map((itm) => {
+                        itm.opacity = false
+
+                        itm.points = itm.points.map((item) => {
+                            item.opacity = false
+                            
+                            return item
+                        })
+
+                        return itm
+                    })
+
+                    this.isRenderRoute = false
+                }
+            },
+            deep: true
+        },
+        'store2.getRoute.to': {
+            handler(val) {
+                if (val) this.renderRoutes()
+                else this.isRenderRoute = false
             },
             deep: true
         }
@@ -190,8 +366,15 @@ export default {
             zoomStart: {x: 0, y: 0},
 
             includeSVG: [],
+            routesSVG: '',
+            onePointStations: {},
 
-            isDropDown: false
+            isDropDown: false,
+            isRenderRoute: false,
+            graph: {
+                visits: [],
+                path: [],
+            }
         }
     }
 }
@@ -203,7 +386,8 @@ export default {
             <Sidebar />
             <div class="main__content">
                 <div class="main__svg" id="zoom">
-                    <SchemeMetroBakuLinesSVG />
+                    <SchemeMetroBakuLinesSVG :opacity="isRenderRoute" />
+                    <SchemeMetroBakuRoutesSVG :include="routesSVG"/>
                     <SchemeMetroBakuStationsSVG :include="includeSVG"/>
                 </div>
                 <DropDown />

@@ -2,11 +2,19 @@
     position: absolute;
     overflow: visible;
 
+    &--opacity {
+        opacity: .3;
+    }
+
     &__label {
         cursor: pointer;
         outline: 0;
         pointer-events: all;
         fill: black;
+
+        &--opacity {
+            opacity: .3;
+        }
 
         &:hover>text {
             fill: red;
