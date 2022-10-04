@@ -122,7 +122,6 @@ export default {
             for (let key in stationsRender) {
                 const item = stationsRender[key]
                 const points = []
-                let onepoint = false
 
                 for (let k in item.points) {
                     const point = item.points[k]
@@ -158,6 +157,7 @@ export default {
             elDropdownView.addEventListener('click', (e) => {
                 if (
                     !e.target.closest('.dropdown') && 
+                    !e.target.closest('.scheme-metro-view__label') &&
                     this.isDropDown
                 ) {
                     elDropdown.style.opacity = 0
