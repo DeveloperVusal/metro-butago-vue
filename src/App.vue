@@ -8,3 +8,7 @@ import { RouterLink, RouterView } from 'vue-router'
   <!-- <Header /> -->
   <RouterView />
 </template>
+
+<style scope lang="scss">
+  @import './assets/styles/fonts.scss';
+</style>

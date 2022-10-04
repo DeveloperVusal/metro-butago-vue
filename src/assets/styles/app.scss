@@ -1,7 +1,14 @@
+// @import '@/assets/styles/fonts.scss';
+
+$fontDefault: 'FiraSans-Regular';
+$colorDefault: #333;
+
 body {
     padding: 0px;
     margin: 0px;
     background-color: #fff;
+    font-family: $fontDefault;
+    color: $colorDefault;
 }
 
 #app {
