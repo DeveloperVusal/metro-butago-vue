@@ -139,7 +139,7 @@ export default {
                     })
                 }
 
-                this.includeSVG.push({
+                this.stationsSVG.push({
                     id: item.id,
                     name: item.name,
                     text_x: item.text.x,
@@ -392,7 +392,7 @@ export default {
 
             this.store2.setRoutePaths(renderPaths)
 
-            this.includeSVG = this.includeSVG.map((itm) => {
+            this.stationsSVG = this.stationsSVG.map((itm) => {
                 itm.opacity = true
 
                 if (this.graph.path.includes(itm.id)) itm.opacity = false
@@ -407,7 +407,7 @@ export default {
                 return itm
             })
 
-            this.includeSVG = this.includeSVG.map((itm) => {
+            this.stationsSVG = this.stationsSVG.map((itm) => {
                 if (itm.opacity && this.onePointStations[itm.name].length > 1) {
                     for (let key in this.onePointStations[itm.name]) {
                         const item = this.onePointStations[itm.name][key]
@@ -438,7 +438,7 @@ export default {
         'store2.getRoute': {
             handler(route) {
                 if (!route.from || !route.to) {
-                    this.includeSVG = this.includeSVG.map((itm) => {
+                    this.stationsSVG = this.stationsSVG.map((itm) => {
                         itm.opacity = false
 
                         itm.points = itm.points.map((item) => {
@@ -474,7 +474,7 @@ export default {
             zoomPointY: 0,
             zoomStart: {x: 0, y: 0},
 
-            includeSVG: [],
+            stationsSVG: [],
             routesSVG: '',
             onePointStations: {},
 
@@ -498,7 +498,7 @@ export default {
                 <div class="main__svg" id="zoom">
                     <SchemeMetroBakuLinesSVG :opacity="isRenderRoute" />
                     <SchemeMetroBakuRoutesSVG :include="routesSVG"/>
-                    <SchemeMetroBakuStationsSVG :include="includeSVG"/>
+                    <SchemeMetroBakuStationsSVG :stations="stationsSVG" />
                 </div>
                 <DropDown />
             </div>
