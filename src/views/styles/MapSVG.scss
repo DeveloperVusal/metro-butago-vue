@@ -18,8 +18,8 @@
             transition: opacity 0.2s;
         }
 
-        &:hover>text {
-            fill: red;
+        &:hover > text {
+            fill: #71AA67;
             opacity: 1;
             transition: fill 0.3s, opacity 0.2s;
         }
