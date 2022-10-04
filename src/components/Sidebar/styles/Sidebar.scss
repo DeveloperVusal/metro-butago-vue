@@ -119,12 +119,15 @@ $colors: (
                         }
 
                         svg {
+                            display: block;
                             width: 11px;
                             height: 11px;
                             position: absolute;
                             top: calc(26px / 2);
                             right: 1.5rem;
                             cursor: pointer;
+                            opacity: 0;
+                            transition: opacity 0.3s;
 
                             g {
                                 fill: #b8b8b8;
@@ -132,6 +135,13 @@ $colors: (
 
                             &:hover g {
                                 fill: #888;
+                            }
+                        }
+
+                        &:hover {
+                            svg {
+                                opacity: 1;
+                                transition: opacity 0.3s;
                             }
                         }
                     }

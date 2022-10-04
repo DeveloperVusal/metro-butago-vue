@@ -122,7 +122,7 @@ export default {
                         ></div>
                         <div class="points__input">
                             <input type="text" placeholder="Hardan" :value="route_from.name">
-                            <IconCloseSVG :from="null" :to="store.getRoute.to" />
+                            <IconCloseSVG :from="null" v-show="store.getRoute.from" :to="store.getRoute.to" />
                         </div>
                     </div>
                     <div class="points__from_to">
@@ -132,7 +132,7 @@ export default {
                         ></div>
                         <div class="points__input">
                             <input type="text" placeholder="Haraya" :value="route_to.name">
-                            <IconCloseSVG :to="null" :from="store.getRoute.from" />
+                            <IconCloseSVG :to="null" v-show="store.getRoute.to" :from="store.getRoute.from" />
                         </div>
                     </div>
                 </div>
