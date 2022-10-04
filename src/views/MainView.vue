@@ -381,11 +381,26 @@ export default {
                         }
                     }
                 } else {
-                    renderPaths[movePathIndx].stations.push({
-                        id: station.id,
-                        name: station.name,
-                    })
-                    renderPaths[movePathIndx].stationCount = renderPaths[movePathIndx].stations.length - 1
+                    if (renderPaths.hasOwnProperty(movePathIndx)) {
+                        renderPaths[movePathIndx].stations.push({
+                            id: station.id,
+                            name: station.name,
+                        })
+                        renderPaths[movePathIndx].stationCount = renderPaths[movePathIndx].stations.length - 1
+                    } else {
+                        renderPaths[movePathIndx] = {
+                            stations: [{
+                                id: station.id,
+                                name: station.name
+                            }],
+                            line_id: station.line_id,
+                            times: {
+                                move: 0,
+                                transfer: 0
+                            },
+                            stationCount: 1
+                        }
+                    }
                 }
 
             })

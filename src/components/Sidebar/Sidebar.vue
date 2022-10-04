@@ -177,7 +177,7 @@ export default {
                                         <li 
                                             v-for="station,indx in path.stations"
                                             :class="`
-                                                station ${(indx == 0) ? 'station--first-last' : ''}${((indx + 1) == path.stations.length) ? 'station--first-last' : ''}
+                                                station ${(indx == 0) ? 'station--first-last' : ''} ${((indx + 1) == path.stations.length && path.stations.length > 1) ? 'station--first-last' : ''}
                                             `"
                                             :key="station.id"
                                         >
