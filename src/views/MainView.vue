@@ -292,7 +292,7 @@ export default {
 
                 if (endPoint == to) {
                     paths.push({
-                        solution: [from, ...solutions[s].map(id => Number(id))],
+                        solution: [...solutions[s].map(id => Number(id))],
                         dist: solutions[s].dist
                     })
                 }
@@ -302,11 +302,14 @@ export default {
         },
 
         renderRoutes() {
+            let movePathIndx = 1
+            const renderPaths = {}
+
             this.graph.visits = []
             this.graph.path = []
             this.graph.points = this.convertToGraph(this.store.stations)
 
-            let routes = this.dijkstraGraph(this.graph.points, this.store2.getRoute.from , this.store2.getRoute.to)
+            const routes = this.dijkstraGraph(this.graph.points, this.store2.getRoute.from , this.store2.getRoute.to)
 
             this.graph.path = routes[0].solution
             this.store2.setPathTimeMin(routes[0].dist)
@@ -346,12 +349,48 @@ export default {
                 this.routesSVG += `<use xlink:href="#${station.view.render}_"></use>`
                 this.routesSVG += `<use xlink:href="#${station.view.render}"></use>`
 
-                return {
-                    id: itm,
-                    name: station.name,
-                    line_id: station.line_id,
+
+                if (next != null) {
+                    if (renderPaths.hasOwnProperty(movePathIndx)) {
+                        renderPaths[movePathIndx].stations.push({
+                            id: station.id,
+                            name: station.name
+                        })
+                        renderPaths[movePathIndx].stationCount = renderPaths[movePathIndx].stations.length - 1
+                        renderPaths[movePathIndx].times.move += station.graph[next.id] ?? 0
+                    } else {
+                        renderPaths[movePathIndx] = {
+                            stations: [{
+                                id: station.id,
+                                name: station.name
+                            }],
+                            line_id: station.line_id,
+                            times: {
+                                move: station.graph[next.id] ?? 0,
+                                transfer: 0
+                            },
+                            stationCount: 1
+                        }
+                    }
+
+                    if (station.hasOwnProperty('transfer')) {
+                        if (station.transfer.includes(next.id)) {
+                            renderPaths[movePathIndx].times.transfer = station.graph[next.id]
+
+                            ++movePathIndx
+                        }
+                    }
+                } else {
+                    renderPaths[movePathIndx].stations.push({
+                        id: station.id,
+                        name: station.name,
+                    })
+                    renderPaths[movePathIndx].stationCount = renderPaths[movePathIndx].stations.length - 1
                 }
+
             })
+
+            this.store2.setRoutePaths(renderPaths)
 
             this.includeSVG = this.includeSVG.map((itm) => {
                 itm.opacity = true

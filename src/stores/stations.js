@@ -12,8 +12,8 @@ export const useStationsStore = defineStore('stations', () => {
     times.value = {
         short: 3,
         long: 4,
-        transfer: 2.5,
-        shortTransfer: 1.3
+        transfer: 3,
+        shortTransfer: 1
     }
 
     colors.value = {
@@ -204,6 +204,7 @@ export const useStationsStore = defineStore('stations', () => {
             line_id: 1,
             move: [11, 9, 23],
             graph: {11: times.value.short, 9: times.value.short, 23: times.value.shortTransfer},
+            transfer: [ 23 ],
             view: {
                 point: {
                     x: 396,
@@ -242,6 +243,7 @@ export const useStationsStore = defineStore('stations', () => {
             line_id: 1,
             move: [11, 25],
             graph: {11: times.value.short, 25: times.value.shortTransfer},
+            transfer: [ 25 ],
             view: {
                 point: {
                     x: 468,
@@ -260,6 +262,7 @@ export const useStationsStore = defineStore('stations', () => {
             line_id: 1,
             move: [14, 11, 26],
             graph: {14: times.value.short, 11: times.value.short, 26: times.value.shortTransfer},
+            transfer: [ 26 ],
             view: {
                 point: {
                     x: 519,
@@ -278,6 +281,7 @@ export const useStationsStore = defineStore('stations', () => {
             line_id: 1,
             move: [15, 13, 27],
             graph: {15: times.value.short, 13: times.value.short, 27: times.value.shortTransfer},
+            transfer: [ 27 ],
             view: {
                 point: {
                     x: 570,
@@ -296,6 +300,7 @@ export const useStationsStore = defineStore('stations', () => {
             line_id: 1,
             move: [16, 14, 28],
             graph: {16: times.value.short, 14: times.value.short, 28: times.value.shortTransfer},
+            transfer: [ 28 ],
             view: {
                 point: {
                     x: 637,
@@ -314,6 +319,7 @@ export const useStationsStore = defineStore('stations', () => {
             line_id: 1,
             move: [17, 15, 29],
             graph: {17: times.value.short, 15: times.value.short, 29: times.value.shortTransfer},
+            transfer: [ 29 ],
             view: {
                 point: {
                     x: 670,
@@ -332,6 +338,7 @@ export const useStationsStore = defineStore('stations', () => {
             line_id: 1,
             move: [18, 16, 30],
             graph: {18: times.value.short, 16: times.value.short, 30: times.value.shortTransfer},
+            transfer: [ 30 ],
             view: {
                 point: {
                     x: 698,
@@ -350,6 +357,7 @@ export const useStationsStore = defineStore('stations', () => {
             line_id: 1,
             move: [19, 17, 31],
             graph: {19: times.value.short, 17: times.value.short, 31: times.value.shortTransfer},
+            transfer: [ 31 ],
             view: {
                 point: {
                     x: 727,
@@ -368,6 +376,7 @@ export const useStationsStore = defineStore('stations', () => {
             line_id: 1,
             move: [18, 32],
             graph: {18: times.value.short, 32: times.value.shortTransfer},
+            transfer: [ 32 ],
             view: {
                 point: {
                     x: 756,
@@ -444,6 +453,7 @@ export const useStationsStore = defineStore('stations', () => {
             line_id: 2,
             move: [24, 22, 10],
             graph: {24: times.value.short, 22: times.value.short, 10: times.value.shortTransfer},
+            transfer: [ 10 ],
             view: {
                 point: {
                     x: 403,
@@ -482,6 +492,7 @@ export const useStationsStore = defineStore('stations', () => {
             line_id: 2,
             move: [24, 12],
             graph: {24: times.value.short, 12: times.value.shortTransfer},
+            transfer: [ 12 ],
             view: {
                 point: {
                     x: 478,
@@ -500,6 +511,7 @@ export const useStationsStore = defineStore('stations', () => {
             line_id: 2,
             move: [27, 24, 13],
             graph: {27: times.value.short, 24: times.value.short, 13: times.value.shortTransfer},
+            transfer: [ 13 ],
             view: {
                 point: {
                     x: 525,
@@ -518,6 +530,7 @@ export const useStationsStore = defineStore('stations', () => {
             line_id: 2,
             move: [28, 26, 14],
             graph: {28: times.value.short, 26: times.value.short, 14: times.value.shortTransfer},
+            transfer: [ 14 ],
             view: {
                 point: {
                     x: 570,
@@ -536,6 +549,7 @@ export const useStationsStore = defineStore('stations', () => {
             line_id: 2,
             move: [29, 27, 15],
             graph: {29: times.value.short, 27: times.value.short, 15: times.value.shortTransfer},
+            transfer: [ 15 ],
             view: {
                 point: {
                     x: 630,
@@ -554,6 +568,7 @@ export const useStationsStore = defineStore('stations', () => {
             line_id: 2,
             move: [30, 28, 16],
             graph: {30: times.value.short, 28: times.value.short, 16: times.value.shortTransfer},
+            transfer: [ 16 ],
             view: {
                 point: {
                     x: 663,
@@ -572,6 +587,7 @@ export const useStationsStore = defineStore('stations', () => {
             line_id: 2,
             move: [31, 29, 17],
             graph: {31: times.value.short, 29: times.value.short, 17: times.value.shortTransfer},
+            transfer: [ 17 ],
             view: {
                 point: {
                     x: 691,
@@ -590,6 +606,7 @@ export const useStationsStore = defineStore('stations', () => {
             line_id: 2,
             move: [32, 30, 18],
             graph: {32: times.value.short, 30: times.value.short, 18: times.value.shortTransfer},
+            transfer: [ 18 ],
             view: {
                 point: {
                     x: 720,
@@ -608,6 +625,7 @@ export const useStationsStore = defineStore('stations', () => {
             line_id: 2,
             move: [31, 19],
             graph: {31: times.value.short, 19: times.value.shortTransfer},
+            transfer: [ 19 ],
             view: {
                 point: {
                     x: 749,

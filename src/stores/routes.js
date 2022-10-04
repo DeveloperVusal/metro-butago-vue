@@ -7,12 +7,18 @@ export const useRoutesStore = defineStore('routes', () => {
         to: null
     })
     const pathTimeMin = ref(0)
+    const routePaths = ref({})
 
     const getRoute = computed(() => route.value)
     const getPathTimeMin = computed(() => pathTimeMin.value)
+    const getRoutePaths = computed(() => routePaths.value)
 
     const setPathTimeMin = (min) => {
         pathTimeMin.value = min
+    }
+
+    const setRoutePaths = (payload) => {
+        routePaths.value = payload
     }
 
     const setRoute = (from, to) => {
@@ -28,5 +34,6 @@ export const useRoutesStore = defineStore('routes', () => {
         getRoute, setRoute,
         setReverseRoute,
         getPathTimeMin, setPathTimeMin,
+        getRoutePaths, setRoutePaths,
     }
 })

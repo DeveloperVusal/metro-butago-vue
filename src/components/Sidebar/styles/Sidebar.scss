@@ -1,10 +1,23 @@
+@use "sass:map";
+
+$colors: (
+    line_1: #04AC5F,
+    line_2: #EF1923,
+    line_3: #91147C,
+    line_4: #8AAC04
+);
+
 .sidebar {
     display: flex;
     flex-direction: column;
     width: 24%;
-    padding: 15px 0px;
+    padding: 15px 0px 60px;
     align-self: stretch;
     box-shadow: 2px 0px 5px 1px rgba($color: #000000, $alpha: .10);
+
+    &--scroll {
+        overflow-y: auto;
+    }
 
     .logo {
         width: 30%;
@@ -150,27 +163,174 @@
         }
     }
 
-    &__times {
+    &__routes {
         display: flex;
         margin-top: 2rem;
 
-        .times {
+        .routes {
             display: flex;
             flex-direction: column;
-            
 
-            &__h1 {
-                font-weight: bold;
-                font-size: 12pt;
+            &__times {
+                display: flex;
+                align-items: center;
+                padding: 5px;
+                padding-bottom: 10px;
+                padding-top: 10px;
+                border-bottom: 1px solid #ddd;
+                border-top: 1px solid #ddd;
+
+                .routes-times {
+                    &__time {
+                        font-weight: bold;
+                        font-size: 14pt;
+                        color: #555;
+                        margin-right: 0.4rem;
+                    }
+
+                    &__transfer {
+                        margin-left: 0.4rem;
+                        font-size: 12.5pt;
+                        color: #999;
+                        font-weight: 500;
+                        padding-top: 2px
+                    }
+                }
             }
 
-            &__time {
-                color: #555;
-                margin-top: 0.5rem;
-                font-size: 11pt;
+            &__list {
+                display: flex;
+                flex-direction: column;
+                list-style: none;
+                margin: 0px;
+                padding: 0px;
+            }
 
-                span {
-                    font-weight: bold;
+            &__path {
+                display: flex;
+                justify-content: flex-end;
+                margin-top: 1rem;
+
+                .route-path {
+                    width: 80%;
+
+                    &__move {
+                        display: flex;
+                        flex-direction: column;
+                        list-style: none;
+                        margin: 0px;
+                        padding: 0px;
+                        margin-bottom: 1rem;
+                        position: relative;
+
+                        &:last-child {
+                            margin-bottom: 0px;
+                        }
+
+                        .station {
+                            display: block;
+                            position: relative;
+
+                            &__text {
+                                font-size: 11pt;
+                                padding: 10px 15px;
+                            }
+
+                            &--first-last {
+                                .station {        
+                                    &__text {
+                                        font-size: 12pt;
+                                        font-weight: bold;
+                                    }
+                                }
+                            }
+
+                            // &:first-child {
+                            //     &__text {
+                            //         font-size: 12pt;
+                            //         font-weight: bold;
+                            //     }
+                            // }
+
+                            // &:last-child {
+                            //     &__text {
+                            //         font-size: 12pt;
+                            //         font-weight: bold;
+                            //     }
+                            // }
+                            
+                        }
+                    }
+
+                    $colorLine: 'route-path__move--color-';
+
+                        @each $name, $color in $colors {
+                            .#{$colorLine}#{$name} {
+                                .station {
+                                    border-left: 1.5px solid $color;
+    
+                                    &__line {
+                                        display: flex;
+                                        align-items: center;
+                                        position: absolute;
+                                        left: 0px;
+                                        top: 0px;
+                                        width: 10px;
+                                        height: 100%;
+    
+                                        &::after {
+                                            display: flex;
+                                            content: '';
+                                            position: absolute;
+                                            width: 8px;
+                                            height: 8px;
+                                            left: -5px;
+                                            margin-bottom: 1.2px;
+                                            border-radius: 50%;
+                                            
+                                            background-color: $color;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                    &__time {
+                        display: flex;
+                        flex-direction: column;
+                        position: absolute;
+                        left: -55px;
+                        font-size: 10.5pt;
+                        font-weight: bold;
+                        color: #999;
+                        align-items: flex-start;
+                        justify-content: center;
+                        height: 100%;
+                    }
+                }
+
+                .routes-transfer {
+                    display: flex;
+                    align-items: center;
+                    margin-bottom: 1rem;
+                    color: #999;
+
+                    &__icon {
+                        svg {
+                            width: 16px;
+                            height: 16px;
+
+                            g {
+                                fill: #999;
+                            }
+                        }
+                    }
+
+                    &__text {
+                        padding-bottom: 2px;
+                        margin-left: 5px;
+                        font-size: 11pt;
+                    }
                 }
             }
         }

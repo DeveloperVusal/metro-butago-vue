@@ -1,6 +1,7 @@
 .main {
     display: flex;
     flex-grow: 1;
+    overflow: hidden;
 
     &__flex {
         display: flex;
