@@ -35,10 +35,17 @@ export default {
     methods: {
         zoomInit() {
             this.zoomView = document.getElementById(this.zoomViewId)
-            // this.zoomStart = { 
-            //     x: (this.zoomView.offsetLeft + this.zoomView.clientWidth) / 2, 
-            //     y: (this.zoomView.offsetTop + this.zoomView.clientHeight) / 2
-            // }
+            this.zoomStart = { 
+                x: (this.zoomView.offsetLeft + this.zoomView.clientWidth) / 2, 
+                y: (this.zoomView.offsetTop + this.zoomView.clientHeight) / 2
+            }
+
+            // this.zoomPointX = this.zoomStart.x
+            // this.zoomPointY = this.zoomStart.y
+
+            // console.log(this.zoomPointX, this.zoomPointY)
+
+            this.zoomSetTransform()
 
             this.zoomView.addEventListener('mousedown', (e) => {
                 e.preventDefault()
@@ -59,6 +66,8 @@ export default {
                 this.zoomPointX = (e.clientX - this.zoomStart.x)
                 this.zoomPointY = (e.clientY - this.zoomStart.y)
 
+                console.log(this.zoomPointX, this.zoomPointY)
+
                 this.zoomSetTransform()
             })
 
@@ -69,14 +78,17 @@ export default {
                 let ys = (e.clientY - this.zoomPointY) / this.zoomScale
                 let delta = e.wheelDelta ? e.wheelDelta : -e.deltaY
                 
+
                 if (delta > 0) {
-                    if (this.zoomScale < 3) this.zoomScale *= 1.2
+                    if (this.zoomScale < 2.5) this.zoomScale *= 1.2
                 } else {
-                    if (this.zoomScale > 0.8) this.zoomScale /= 1.2
+                    if (this.zoomScale > 1.2) this.zoomScale /= 1.2
                 }
 
                 this.zoomPointX = e.clientX - xs * this.zoomScale
                 this.zoomPointY = e.clientY - ys * this.zoomScale
+
+                console.log(this.zoomPointX, this.zoomPointY)
 
                 this.zoomSetTransform()
             })
@@ -484,9 +496,9 @@ export default {
             zoomViewId: 'zoom',
             zoomView: null,
             zoomPanning: false,
-            zoomScale: 1,
-            zoomPointX: 0,
-            zoomPointY: 0,
+            zoomScale: 1.44,
+            zoomPointX: -179,
+            zoomPointY: -147,
             zoomStart: {x: 0, y: 0},
 
             stationsSVG: [],
