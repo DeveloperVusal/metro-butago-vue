@@ -11,14 +11,17 @@
         outline: 0;
         pointer-events: all;
         fill: black;
+        transition: fill 0.3s, opacity 0.2s;
 
         &--opacity {
             opacity: .3;
+            transition: opacity 0.2s;
         }
 
         &:hover>text {
             fill: red;
             opacity: 1;
+            transition: fill 0.3s, opacity 0.2s;
         }
     }
 }
