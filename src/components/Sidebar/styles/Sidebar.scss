@@ -104,6 +104,7 @@ $colors: (
                             background-color: #f6f6f6;
                             font-size: 11pt;
                             font-weight: bold;
+                            transition: border 0.3s;
 
                             &::placeholder {
                                 color: #999;
@@ -111,10 +112,12 @@ $colors: (
                             
                             &:hover {
                                 border: 1px solid #ddd;
+                                transition: border 0.3s;
                             }
 
                             &:focus {
                                 border: 1px solid blue;
+                                transition: border 0.3s;
                             }
                         }
 
@@ -247,63 +250,59 @@ $colors: (
                             }
 
                             &--first-last {
-                                .station {        
+                                .station {
                                     &__text {
                                         font-size: 12pt;
                                         font-weight: bold;
                                     }
                                 }
-                            }
-
-                            // &:first-child {
-                            //     &__text {
-                            //         font-size: 12pt;
-                            //         font-weight: bold;
-                            //     }
-                            // }
-
-                            // &:last-child {
-                            //     &__text {
-                            //         font-size: 12pt;
-                            //         font-weight: bold;
-                            //     }
-                            // }
-                            
+                            }                            
                         }
                     }
 
                     $colorLine: 'route-path__move--color-';
 
-                        @each $name, $color in $colors {
-                            .#{$colorLine}#{$name} {
-                                .station {
-                                    border-left: 1.5px solid $color;
-    
-                                    &__line {
+                    @each $name, $color in $colors {
+                        .#{$colorLine}#{$name} {
+                            .station {
+                                border-left: 1.5px solid $color;
+
+                                &__line {
+                                    display: flex;
+                                    align-items: center;
+                                    position: absolute;
+                                    left: 0px;
+                                    top: 0px;
+                                    width: 10px;
+                                    height: 100%;
+
+                                    &::after {
                                         display: flex;
-                                        align-items: center;
+                                        content: '';
                                         position: absolute;
-                                        left: 0px;
-                                        top: 0px;
-                                        width: 10px;
-                                        height: 100%;
-    
+                                        width: 5px;
+                                        height: 5px;
+                                        left: -5px;
+                                        margin-bottom: 1.2px;
+                                        border-radius: 50%;
+                                        border: 1.5px solid $color;
+                                        background-color: #fff;
+                                    }
+                                }
+
+                                &--first-last {
+                                    .station__line {
                                         &::after {
-                                            display: flex;
-                                            content: '';
-                                            position: absolute;
                                             width: 8px;
                                             height: 8px;
-                                            left: -5px;
-                                            margin-bottom: 1.2px;
-                                            border-radius: 50%;
-                                            
+                                            border: none;
                                             background-color: $color;
                                         }
                                     }
                                 }
                             }
                         }
+                    }
 
                     &__time {
                         display: flex;

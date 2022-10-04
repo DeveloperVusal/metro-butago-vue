@@ -166,8 +166,7 @@ export default {
                                 >
                                     <ul 
                                         :class="`
-                                            route-path__move 
-                                            route-path__move--color-line_${path.line_id}
+                                            route-path__move route-path__move--color-line_${path.line_id}
                                         `"
                                     >
                                         <div class="route-path__time">
@@ -178,9 +177,7 @@ export default {
                                         <li 
                                             v-for="station,indx in path.stations"
                                             :class="`
-                                                station 
-                                                ${(indx == 0) ? 'station--first-last' : ''}
-                                                ${((indx + 1) == path.stations.length) ? 'station--first-last' : ''}
+                                                station ${(indx == 0) ? 'station--first-last' : ''}${((indx + 1) == path.stations.length) ? 'station--first-last' : ''}
                                             `"
                                             :key="station.id"
                                         >
