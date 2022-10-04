@@ -357,7 +357,7 @@ export default {
                             name: station.name
                         })
                         renderPaths[movePathIndx].stationCount = renderPaths[movePathIndx].stations.length - 1
-                        renderPaths[movePathIndx].times.move += station.graph[next.id] ?? 0
+                        renderPaths[movePathIndx].times.move += (station.hasOwnProperty('transfer') ? 0 : station.graph[next.id]) ?? 0
                     } else {
                         renderPaths[movePathIndx] = {
                             stations: [{
