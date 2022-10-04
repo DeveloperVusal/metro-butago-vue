@@ -81,6 +81,9 @@ export default {
                 }
             }
         },
+        fnResetRoute() {
+            this.store.setRoute(null, null)
+        },
     },
     data() {
         return {
@@ -143,6 +146,14 @@ export default {
                     <IconSwapSVG />
                 </div>
             </div>
+        </div>
+
+        <div class="sidebar__route-reset sidebar__center" v-if="routes.time > 0">
+            <button
+                class="route-reset__button" 
+                type="button"
+                @click="fnResetRoute()"
+            >Marşrutu sıfırlayın</button>
         </div>
 
         <div class="sidebar__routes" v-if="routes.time > 0">
