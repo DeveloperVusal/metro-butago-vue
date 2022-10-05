@@ -22,6 +22,7 @@ export default {
     methods: {
         fnSelectedStation(event, stations) {
             if (stations >= 2) {
+                const elDropdownView = document.body
                 const elDropdown = document.querySelector('.dropdown')
                 const mouseX = event.clientX, mouseY = event.clientY
                 const newPoints = this.points.map(itm => {
@@ -34,8 +35,35 @@ export default {
 
                 this.store2.setDropdown(newPoints)
 
-                elDropdown.style.top = `${mouseY + 15}px`
-                elDropdown.style.left = `${mouseX - (elDropdown.offsetWidth / 2)}px`
+                let createPosX = mouseX - (elDropdown.offsetWidth / 2)
+                let createPosY = mouseY + 15
+
+                if ((elDropdownView.clientHeight - mouseY) < 240) {
+                    createPosY = mouseY - 80
+                }
+
+                if (mouseX < 380) {
+                    createPosX = mouseX + 15
+                }
+
+                if (
+                    (elDropdownView.clientWidth - mouseX) < 150 &&
+                    (elDropdownView.clientHeight - mouseY) < 240
+                ) {
+                    createPosX = mouseX - (elDropdown.offsetWidth ?? 110)
+                    createPosY = mouseY - 80
+                } else {
+                    if ((elDropdownView.clientWidth - mouseX) < 150) {
+                        createPosX = mouseX - (elDropdown.offsetWidth ?? 110)
+                    }
+
+                    if ((elDropdownView.clientHeight - mouseY) < 240) {
+                        createPosY = mouseY - 80
+                    }
+                }
+                
+                elDropdown.style.top = `${createPosY}px`
+                elDropdown.style.left = `${createPosX}px`
                 elDropdown.style.opacity = 1
 
                 this.store2.setIsActiveDropdown(true)
