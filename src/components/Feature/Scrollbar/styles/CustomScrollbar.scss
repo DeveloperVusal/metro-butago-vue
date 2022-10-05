@@ -1,0 +1,30 @@
+.butago-vue-custom-scrollbar {
+    overflow-y: scroll;
+    mask-image: linear-gradient(to top, transparent, black),
+                linear-gradient(to left, transparent 17px, black 17px);
+    mask-size: 100% 20000px;
+    mask-position: left bottom;
+    -webkit-mask-image: linear-gradient(to top, transparent, black),
+                        linear-gradient(to left, transparent 17px, black 17px);
+    -webkit-mask-size: 100% 20000px;
+    -webkit-mask-position: left bottom;
+    transition: mask-position 0.3s, -webkit-mask-position 0.3s;
+
+    &::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: rgba($color: #000000, $alpha: 0.25);
+        border-radius: 5px;
+
+        &:hover {
+            background-color: rgba($color: #000000, $alpha: 0.4);
+        }
+    }
+
+    &:hover {
+        mask-position: left top;
+        -webkit-mask-position: left top;
+    }
+}

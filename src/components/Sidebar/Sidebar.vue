@@ -1,6 +1,4 @@
 <script>
-import vueCustomScrollbar from 'vue-custom-scrollbar/src/vue-scrollbar.vue'
-
 import './styles/Sidebar.scss'
 
 import IconSwapSVG from '@/components/Icons/IconSwap.vue'
@@ -10,12 +8,14 @@ import IconWalkerSVG from '@/components/Icons/IconWalker.vue'
 import { useRoutesStore } from '@/stores/routes'
 import { useStationsStore } from '@/stores/stations'
 
+import CustomScrollbar from '@/components/Feature/Scrollbar/CustomScrollbar.vue'
+
 export default {
     components: {
         IconSwapSVG,
         IconCloseSVG,
         IconWalkerSVG,
-        vueCustomScrollbar
+        CustomScrollbar
     },
     setup() {
         const store = useRoutesStore()
@@ -116,16 +116,15 @@ export default {
 
 <template>
     <div class="sidebar">
-        <vue-custom-scrollbar class="scroll-area"  :settings="settings">
-            <div class="sidebar__box">
-                <div class="sidebar__top">
-                    <div class="sidebar__center sidebar__center--fixed">
-                        <div class="logo">
-                            <img src="@/assets/images/logo-text.svg" alt="">
-                        </div>
-                    </div>
+        <div class="sidebar__top">
+            <div class="sidebar__center sidebar__center--fixed">
+                <div class="logo">
+                    <img src="@/assets/images/logo-text.svg" alt="">
                 </div>
-
+            </div>
+        </div>
+        <CustomScrollbar>
+            <div class="sidebar__box">
                 <div class="sidebar__points">
                     <div class="points sidebar__center">
                         <div class="points__stations">
@@ -224,6 +223,6 @@ export default {
                     </div>
                 </div>
             </div>
-        </vue-custom-scrollbar>
+        </CustomScrollbar>
     </div>
 </template>
