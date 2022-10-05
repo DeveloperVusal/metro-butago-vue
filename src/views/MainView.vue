@@ -1,6 +1,4 @@
 <script>
-import VueZoomer from 'vue-zoomer/src'
-
 import './styles/MainView.scss'
 import './styles/MapSVG.scss'
 
@@ -15,7 +13,6 @@ import DropDown from '@/components/UIElements/DropDown.vue'
 
 export default {
     components: {
-        VZoomer: VueZoomer.Zoomer,
         Sidebar,
         SchemeMetroBakuLinesSVG,
         SchemeMetroBakuStationsSVG,
