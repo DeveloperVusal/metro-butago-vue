@@ -121,6 +121,12 @@ export default {
                 <div class="logo">
                     <img src="@/assets/images/logo-text.svg" alt="">
                 </div>
+                <div class="location">
+                    <div class="location__flag">
+                        <img src="@/assets/images/flags/az.png" alt="">
+                    </div>
+                    <div class="location__city">Baki</div>
+                </div>
             </div>
         </div>
         <CustomScrollbar>

@@ -23,24 +23,8 @@ $colors: (
     box-shadow: 3px 0px 5px 1px rgba($color: #000000, $alpha: .10);
     font-family: $fontRegular;
 
-    .scroll-area {
-        position: relative;
-    }
-
-    &--scroll {
-        overflow-y: auto;
-    }
-
     &__box {
         padding-bottom: 40px;
-    }
-
-    .logo {
-        width: 30%;
-
-        img {
-            width: 100%;
-        }
     }
 
     &__top {
@@ -51,6 +35,35 @@ $colors: (
         padding-bottom: 0.6rem;
         box-shadow: 0px 2px 2px 0.5px rgba($color: #000000, $alpha: .10);
         margin-top: 1rem;
+
+        .logo {
+            width: 30%;
+    
+            img {
+                width: 100%;
+            }
+        }
+
+        .location {
+            display: flex;
+            align-items: center;
+
+            &__flag {
+                width: 24px;
+                height: 24px;
+    
+                img {
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+    
+            &__city {
+                margin-left: 0.3rem;
+                font-size: 14pt;
+                font-family: $fontMedium;
+            }
+        }
     }
 
     &__center {
@@ -62,16 +75,6 @@ $colors: (
             justify-content: space-between;
             align-items: center;
         }
-    }
-
-    &__city {
-        display: flex;
-        width: calc(50% / 2);
-        outline: none;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        padding: 5px 10px;
-        font-size: 12pt;
     }
 
     &__route-reset {
