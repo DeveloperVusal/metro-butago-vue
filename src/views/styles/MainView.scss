@@ -23,6 +23,8 @@
         height: 100vh;
         margin: 0 auto;
         position: relative;
+        transform-origin: 50% 50%;
+        transform: scale(1) translate(0px, 0px);
 
         svg {
             object-fit: contain;
