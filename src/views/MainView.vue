@@ -1,4 +1,6 @@
 <script>
+import VueZoomer from 'vue-zoomer/src'
+
 import './styles/MainView.scss'
 import './styles/MapSVG.scss'
 
@@ -13,6 +15,7 @@ import DropDown from '@/components/UIElements/DropDown.vue'
 
 export default {
     components: {
+        VZoomer: VueZoomer.Zoomer,
         Sidebar,
         SchemeMetroBakuLinesSVG,
         SchemeMetroBakuStationsSVG,
@@ -40,11 +43,6 @@ export default {
                 y: (this.zoomView.offsetTop + this.zoomView.clientHeight) / 2
             }
 
-            // this.zoomPointX = this.zoomStart.x
-            // this.zoomPointY = this.zoomStart.y
-
-            // console.log(this.zoomPointX, this.zoomPointY)
-
             this.zoomSetTransform()
 
             this.zoomView.addEventListener('mousedown', (e) => {
@@ -66,9 +64,22 @@ export default {
                 this.zoomPointX = (e.clientX - this.zoomStart.x)
                 this.zoomPointY = (e.clientY - this.zoomStart.y)
 
-                console.log(this.zoomPointX, this.zoomPointY)
+                let zoomRectLeft = (this.zoomPointX - (this.zoomView.offsetWidth / 2)) / 2
+                let zoomRectRight = this.zoomView.offsetWidth / 2
+                let zoomRectTop = (this.zoomPointY - (this.zoomView.offsetHeight / 2)) / 2
+                let zoomRectBottom = this.zoomView.offsetHeight / 2
 
-                this.zoomSetTransform()
+                if (
+                    zoomRectTop <= -(this.zoomView.offsetHeight / 2) || 
+                    this.zoomPointY >= zoomRectBottom ||
+                    zoomRectLeft <= -(this.zoomView.offsetWidth / 2) || 
+                    this.zoomPointX >= zoomRectRight
+                ) {
+                    // this.zoomPanning = false
+                    return
+                } else {
+                    this.zoomSetTransform()
+                }
             })
 
             this.zoomView.addEventListener('wheel', (e) => {
@@ -80,15 +91,13 @@ export default {
                 
 
                 if (delta > 0) {
-                    if (this.zoomScale < 2.5) this.zoomScale *= 1.2
+                    if (this.zoomScale < this.zoomInMax) this.zoomScale *= 1.2
                 } else {
-                    if (this.zoomScale > 1.2) this.zoomScale /= 1.2
+                    if (this.zoomScale > this.zoomOutMax) this.zoomScale /= 1.2
                 }
 
                 this.zoomPointX = e.clientX - xs * this.zoomScale
                 this.zoomPointY = e.clientY - ys * this.zoomScale
-
-                console.log(this.zoomPointX, this.zoomPointY)
 
                 this.zoomSetTransform()
             })
@@ -496,10 +505,12 @@ export default {
             zoomViewId: 'zoom',
             zoomView: null,
             zoomPanning: false,
-            zoomScale: 1.44,
-            zoomPointX: -179,
-            zoomPointY: -147,
+            zoomScale: 1.3,
+            zoomPointX: 40,
+            zoomPointY: -50,
             zoomStart: {x: 0, y: 0},
+            zoomInMax: 2.2,
+            zoomOutMax: 1.2,
 
             stationsSVG: [],
             routesSVG: '',
