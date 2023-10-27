@@ -736,6 +736,24 @@ export const useStationsStore = defineStore('stations', () => {
                 render: 'line3_37',
             }
         },
+        {
+            id: 38,
+            name: 'Xocəsən',
+            line_id: 3,
+            move: [37],
+            graph: {37: times.value.short},
+            view: {
+                point: {
+                    x: 88.0904,
+                    y: 183.751
+                },
+                text: {
+                    x: 93.1846,
+                    y: 179.854
+                },
+                render: 'line3_38',
+            }
+        },
     ]
 
     const getDropdown = computed(() => dropdown.value)
