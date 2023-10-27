@@ -118,9 +118,11 @@ export default {
     <div class="sidebar">
         <div class="sidebar__top">
             <div class="sidebar__center sidebar__center--fixed">
-                <div class="logo">
-                    <img src="@/assets/images/logo-text.svg" alt="">
-                </div>
+                <a href="https://butago.com/" target="_blank">
+                    <div class="logo">
+                        <img src="@/assets/images/logo-text.svg" alt="">
+                    </div>
+                </a>
                 <div class="location">
                     <div class="location__flag">
                         <img src="@/assets/images/flags/az.png" alt="">
