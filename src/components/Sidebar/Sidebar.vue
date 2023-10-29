@@ -1,8 +1,6 @@
 <script>
 import './styles/Sidebar.scss'
 
-import { provide } from 'vue'
-
 import IconSwapSVG from '@/components/Icons/IconSwap.vue'
 import IconCloseSVG from '@/components/Icons/IconClose.vue'
 import IconWalkerSVG from '@/components/Icons/IconWalker.vue'
@@ -24,8 +22,6 @@ export default {
         RouteSearch
     },
     setup() {
-        provide('fnSetRouteStation', /* value */ 'hello!')
-
         const store = useRoutesStore()
         const store2 = useStationsStore()
 
@@ -95,7 +91,7 @@ export default {
         fnResetRoute() {
             this.store.setRoute(null, null)
         },
-        toggleSidebar(e) {
+        fnToggleSidebar(e) {
             const elBtn = e.target.closest('.hide-btn')
 
             if (elBtn.classList.contains('hide-btn')) {
@@ -180,7 +176,7 @@ export default {
 
 <template>
     <div class="sidebar">
-        <div class="hide-btn" @click="toggleSidebar($event)">
+        <div class="hide-btn" @click="fnToggleSidebar($event)">
             <div class="hide-btn__icon"></div>
         </div>
         <IncHeader />
