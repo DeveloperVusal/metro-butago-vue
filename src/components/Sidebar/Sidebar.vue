@@ -1,6 +1,8 @@
 <script>
 import './styles/Sidebar.scss'
 
+import { provide } from 'vue'
+
 import IconSwapSVG from '@/components/Icons/IconSwap.vue'
 import IconCloseSVG from '@/components/Icons/IconClose.vue'
 import IconWalkerSVG from '@/components/Icons/IconWalker.vue'
@@ -10,17 +12,20 @@ import { useStationsStore } from '@/stores/stations'
 
 import CustomScrollbar from '@/components/Feature/Scrollbar/CustomScrollbar.vue'
 import IncHeader from '@/components/Sidebar/Header.vue'
+import RouteSearch from '@/components/UIElements/RouteSearch.vue'
 
 export default {
     components: {
         IconSwapSVG,
         IconCloseSVG,
         IconWalkerSVG,
-
         CustomScrollbar,
         IncHeader,
+        RouteSearch
     },
     setup() {
+        provide('fnSetRouteStation', /* value */ 'hello!')
+
         const store = useRoutesStore()
         const store2 = useStationsStore()
 
@@ -109,10 +114,46 @@ export default {
             } else {
                 console.error(['Not found'])
             }
-        }
+        },
+        fnSearchStations(el, n) {
+            const val = el.target.value.toLowerCase().trim()
+            
+            if (n === 1) {
+                this.route_from.name = val
+                this.srch_results_from = []
+            } else if (n === 2) {
+                this.route_to.name = val
+                this.srch_results_to = []
+            }
+
+            if (val.length) {
+                this.store2.stations.map(item => {
+                    if (item.name.toLowerCase().indexOf(val) != -1) {
+                        const setObj = {
+                            id: item.id,
+                            name: item.name,
+                            color: this.store2.colors[item.line_id],
+                        }
+
+                        if (n === 1) this.srch_results_from.push(setObj)
+                        else if (n === 2) this.srch_results_to.push(setObj)
+                    }
+                })
+
+                if (n === 1) this.srch_results_from.sort(this.sort_stations)
+                else if (n === 2) this.srch_results_to.sort(this.sort_stations)
+            }
+        },
+        sort_stations(a, b) {
+            if (a.name < b.name) return -1
+            if (a.name > b.name) return 1
+            return 0
+        },
     },
     data() {
         return {
+            srch_results_from: [],
+            srch_results_to: [],
             routes: {
                 time: 0,
                 transfers: 0,
@@ -154,8 +195,10 @@ export default {
                                     :style="(route_from.color) ? 'background-color: ' + route_from.color : ''"
                                 ></div>
                                 <div class="points__input">
-                                    <input type="text" placeholder="Hardan" :value="route_from.name">
+                                    <input type="text" placeholder="Hardan" :value="route_from.name" @input="fnSearchStations($event, 1)">
                                     <IconCloseSVG :from="null" v-show="store.getRoute.from" :to="store.getRoute.to" />
+
+                                    <RouteSearch :result="srch_results_from" :action="'from'"></RouteSearch>
                                 </div>
                             </div>
                             <div class="points__from_to">
@@ -164,8 +207,10 @@ export default {
                                     :style="(route_to.color) ? 'background-color: ' + route_to.color : ''"
                                 ></div>
                                 <div class="points__input">
-                                    <input type="text" placeholder="Haraya" :value="route_to.name">
+                                    <input type="text" placeholder="Haraya" :value="route_to.name" @input="fnSearchStations($event, 2)">
                                     <IconCloseSVG :to="null" v-show="store.getRoute.to" :from="store.getRoute.from" />
+
+                                    <RouteSearch :result="srch_results_to" :action="'to'"></RouteSearch>
                                 </div>
                             </div>
                         </div>

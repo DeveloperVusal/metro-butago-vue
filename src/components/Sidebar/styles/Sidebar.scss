@@ -67,6 +67,7 @@ $sidebar_wh: 350px;
     &__points {
         display: flex;
         margin-top: 2rem;
+        position: relative;
 
         .points {
             display: flex;
@@ -125,6 +126,10 @@ $sidebar_wh: 350px;
                             &:focus {
                                 border: 1px solid blue;
                                 transition: border 0.3s;
+                            }
+
+                            &:focus ~ .ui-route-search {
+                                display: flex;
                             }
                         }
 
