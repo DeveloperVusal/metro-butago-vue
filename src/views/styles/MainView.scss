@@ -13,9 +13,14 @@
     &__content {
         display: flex;
         align-self: stretch;
-        // padding: 10px;
         width: calc(100% - 350px);
         overflow: hidden;
+        transition: width 0.3s;
+
+        &--isfull {
+            width: 100%;
+            transition: width 0.3s;
+        }
     }
 
     &__svg {

@@ -9,13 +9,16 @@ import { useRoutesStore } from '@/stores/routes'
 import { useStationsStore } from '@/stores/stations'
 
 import CustomScrollbar from '@/components/Feature/Scrollbar/CustomScrollbar.vue'
+import IncHeader from '@/components/Sidebar/Header.vue'
 
 export default {
     components: {
         IconSwapSVG,
         IconCloseSVG,
         IconWalkerSVG,
-        CustomScrollbar
+
+        CustomScrollbar,
+        IncHeader,
     },
     setup() {
         const store = useRoutesStore()
@@ -87,6 +90,26 @@ export default {
         fnResetRoute() {
             this.store.setRoute(null, null)
         },
+        toggleSidebar(e) {
+            const elBtn = e.target.closest('.hide-btn')
+
+            if (elBtn.classList.contains('hide-btn')) {
+                const elSidebar = this.$el
+                const elMainContent = this.$el.parentElement.querySelector('.main__content')
+
+                if (!elBtn.classList.contains('hide-btn--ishide')) {
+                    elBtn.classList.add('hide-btn--ishide')
+                    elSidebar.classList.add('sidebar--hide')
+                    elMainContent.classList.add('main__content--isfull')
+                } else {
+                    elBtn.classList.remove('hide-btn--ishide')
+                    elSidebar.classList.remove('sidebar--hide')
+                    elMainContent.classList.remove('main__content--isfull')
+                }
+            } else {
+                console.error(['Not found'])
+            }
+        }
     },
     data() {
         return {
@@ -116,21 +139,10 @@ export default {
 
 <template>
     <div class="sidebar">
-        <div class="sidebar__top">
-            <div class="sidebar__center sidebar__center--fixed">
-                <a href="https://butago.com/" target="_blank">
-                    <div class="logo">
-                        <img src="@/assets/images/logo-text.svg" alt="">
-                    </div>
-                </a>
-                <div class="location">
-                    <div class="location__flag">
-                        <img src="@/assets/images/flags/az.png" alt="">
-                    </div>
-                    <div class="location__city">Baki</div>
-                </div>
-            </div>
+        <div class="hide-btn" @click="toggleSidebar($event)">
+            <div class="hide-btn__icon"></div>
         </div>
+        <IncHeader />
         <CustomScrollbar>
             <div class="sidebar__box">
                 <div class="sidebar__points">

@@ -366,7 +366,6 @@ export default {
 
                 this.routesSVG += `<use xlink:href="#${station.view.render}"></use>`
 
-
                 if (next != null) {
                     if (renderPaths.hasOwnProperty(movePathIndx)) {
                         renderPaths[movePathIndx].stations.push({
@@ -528,7 +527,7 @@ export default {
     <main class="main">
         <div class="main__flex">
             <Sidebar />
-            <div class="main__content">
+            <div class="main__content" ref="main_content">
                 <div class="main__svg" id="zoom">
                     <SchemeMetroBakuLinesSVG :opacity="isRenderRoute" />
                     <SchemeMetroBakuRoutesSVG :include="routesSVG"/>

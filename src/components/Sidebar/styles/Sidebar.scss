@@ -11,61 +11,24 @@ $colors: (
     line_4: #8AAC04
 );
 
+$sidebar_wh: 350px;
+
 .sidebar {
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
-    width: 350px;
+    width: $sidebar_wh;
     padding: 0px;
     align-self: stretch;
     background-color: #fff;
     z-index: 20;
     box-shadow: 3px 0px 5px 1px rgba($color: #000000, $alpha: .10);
     font-family: $fontRegular;
+    position: relative;
+    transition: margin-left 0.3s;
 
     &__box {
         padding-bottom: 40px;
-    }
-
-    &__top {
-        display: flex;
-        width: 100%;
-        justify-content: space-between;
-        align-items: center;
-        padding-bottom: 0.6rem;
-        box-shadow: 0px 2px 2px 0.5px rgba($color: #000000, $alpha: .10);
-        margin-top: 1rem;
-
-        a {
-            width: 30%;
-            
-            .logo {        
-                img {
-                    width: 100%;
-                }
-            }
-        }
-
-        .location {
-            display: flex;
-            align-items: center;
-
-            &__flag {
-                width: 24px;
-                height: 24px;
-    
-                img {
-                    width: 100%;
-                    height: 100%;
-                }
-            }
-    
-            &__city {
-                margin-left: 0.3rem;
-                font-size: 14pt;
-                font-family: $fontMedium;
-            }
-        }
     }
 
     &__center {
@@ -387,5 +350,40 @@ $colors: (
                 }
             }
         }
+    }
+
+    .hide-btn {
+        display: flex;
+        position: absolute;
+        right: -36px;
+        top: 0px;
+        background-color: #464646;
+        z-index: 20;
+        box-shadow: 3px 0px 5px 1px rgba($color: #000000, $alpha: .10);
+        padding: 10px;
+        transition: background-color 0.3s;
+
+        &__icon {
+            width: 16px;
+            height: 16px;
+            background-image: url('@/assets/images/icons/angle-left.svg');
+            background-size: contain;
+            background-position: center;
+        }
+
+        &--ishide {
+            transform: rotate(180deg);
+        }
+
+        &:hover {
+            background-color: #373737;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+    }
+
+    &--hide {
+        margin-left: -$sidebar_wh;
+        transition: margin-left 0.2s;
     }
 }
