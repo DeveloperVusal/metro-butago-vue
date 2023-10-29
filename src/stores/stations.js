@@ -178,26 +178,26 @@ export const useStationsStore = defineStore('stations', () => {
                 render: 'line1_8',
             }
         },
-        // {
-        //     id: 9,
-        //     name: '28 May',
-        //     line_id: 1,
-        //     move: [10, 8, 34, 22],
-        //     graph: {10: times.value.short, 8: times.value.long, 34: times.value.transfer, 22: times.value.transfer},
-        //     transfer: [ 22, 34 ],
-        //     view: {
-        //         point: {
-        //             x: 320,
-        //             y: 409
-        //         },
-        //         text: {
-        //             x: 281,
-        //             y: 396
-        //         },
-        //         render: 'line1_9',
-        //         transfer: ['line2_22', 'line2_22-line4_34'],
-        //     }
-        // },
+        {
+            id: 9,
+            name: '28 May',
+            line_id: 1,
+            move: [8, 34, 22],
+            graph: {10: times.value.short, 8: times.value.long, 34: times.value.transfer, 22: times.value.transfer},
+            transfer: [ 22, 34 ],
+            view: {
+                point: {
+                    x: 373.108,
+                    y: 429.109
+                },
+                text: {
+                    x: 338,
+                    y: 416.773
+                },
+                render: 'line1_9',
+                transfer: ['line2_22', 'line4_34'],
+            }
+        },
         // {
         //     id: 10,
         //     name: 'Gənclik',
@@ -543,8 +543,8 @@ export const useStationsStore = defineStore('stations', () => {
             id: 35,
             name: 'Avtovağzal',
             line_id: 3,
-            move: [36],
-            graph: {36: times.value.short},
+            move: [36, 38],
+            graph: {36: times.value.short, 38: times.value.short},
             view: {
                 point: {
                     x: 128.748,
@@ -599,8 +599,8 @@ export const useStationsStore = defineStore('stations', () => {
             id: 38,
             name: 'Xocəsən',
             line_id: 3,
-            move: [37],
-            graph: {37: times.value.short},
+            move: [35],
+            graph: {35: times.value.short},
             view: {
                 point: {
                     x: 88.0904,
