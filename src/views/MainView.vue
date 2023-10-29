@@ -364,7 +364,6 @@ export default {
                     }
                 }
 
-                this.routesSVG += `<use xlink:href="#${station.view.render}_"></use>`
                 this.routesSVG += `<use xlink:href="#${station.view.render}"></use>`
 
 
