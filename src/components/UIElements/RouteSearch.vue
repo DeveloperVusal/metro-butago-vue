@@ -9,18 +9,18 @@ export default {
         'action',
     ],
     setup() {
-        const store = useRoutesStore()
+        const storeRoutes = useRoutesStore()
 
-        return { store }
+        return { storeRoutes }
     },
     methods: {
         fnSetRouteStation(id, action) {
             console.log('click', id, action)
 
             if (action === 'from') {
-                this.store.setRoute(this.store.getRoute.from, id)
+                this.storeRoutes.setRoute(this.storeRoutes.getRoute.from, id)
             } else if (action === 'to') {
-                this.store.setRoute(this.store.getRoute.to, id)
+                this.storeRoutes.setRoute(this.storeRoutes.getRoute.to, id)
             }
         }
     },

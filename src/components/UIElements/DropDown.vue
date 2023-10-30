@@ -6,15 +6,15 @@ import { useRoutesStore } from '@/stores/routes'
 
 export default {
     setup() {
-        const store = useStationsStore()
-        const store2 = useRoutesStore()
+        const storeStations = useStationsStore()
+        const storeRoutes = useRoutesStore()
 
         return {
-            store, store2
+            storeStations, storeRoutes
         }
     },
     watch: {
-        'store.getDropdown': {
+        'storeStations.getDropdown': {
             handler(newVal) {
                 this.list = newVal
             },
@@ -24,13 +24,13 @@ export default {
     
     methods: {
         fnSelectedStation(id) {
-            if (this.store2.getRoute.from) {
-                this.store2.setRoute(this.store2.getRoute.from, id)
+            if (this.storeRoutes.getRoute.from) {
+                this.storeRoutes.setRoute(this.storeRoutes.getRoute.from, id)
             } else {
-                this.store2.setRoute(id, null)
+                this.storeRoutes.setRoute(id, null)
             }
 
-            this.store.setIsActiveDropdown(false)
+            this.storeStations.setIsActiveDropdown(false)
         }
     },
     data() {

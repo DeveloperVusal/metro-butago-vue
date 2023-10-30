@@ -12,11 +12,11 @@ export default {
         'opacity'
     ],
     setup() {
-        const store = useRoutesStore()
-        const store2 = useStationsStore()
+        const storeRoutes = useRoutesStore()
+        const storeStations = useStationsStore()
 
         return {
-            store, store2
+            storeRoutes, storeStations
         }
     },
     methods: {
@@ -33,7 +33,7 @@ export default {
                     }
                 })
 
-                this.store2.setDropdown(newPoints)
+                this.storeStations.setDropdown(newPoints)
 
                 let createPosX = mouseX - (elDropdown.offsetWidth / 2)
                 let createPosY = mouseY + 15
@@ -66,12 +66,12 @@ export default {
                 elDropdown.style.left = `${createPosX}px`
                 elDropdown.style.opacity = 1
 
-                this.store2.setIsActiveDropdown(true)
+                this.storeStations.setIsActiveDropdown(true)
             } else {
-                if (this.store.getRoute.from) {
-                    this.store.setRoute(this.store.getRoute.from, this.id)
+                if (this.storeRoutes.getRoute.from) {
+                    this.storeRoutes.setRoute(this.storeRoutes.getRoute.from, this.id)
                 } else {
-                    this.store.setRoute(this.id, null)
+                    this.storeRoutes.setRoute(this.id, null)
                 }
             }
         }
