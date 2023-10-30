@@ -113,7 +113,7 @@ export default {
             }
         },
         fnSearchStations(el, n) {
-            const val = el.target.value.toLowerCase().trim()
+            const val = el.target.value.toLowerCase()
             
             if (n === 1) {
                 this.route_from.name = val
@@ -125,7 +125,7 @@ export default {
 
             if (val.length) {
                 this.storeStations.stations.map(item => {
-                    if (item.name.toLowerCase().indexOf(val) != -1) {
+                    if (item.name.toLowerCase().indexOf(val.trim()) != -1) {
                         const setObj = {
                             id: item.id,
                             name: item.name,
