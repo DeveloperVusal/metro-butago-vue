@@ -5,7 +5,12 @@
 </script>
 
 <template>
-    <svg width="965" height="700" viewBox="0 0 965 700" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <svg 
+        :class="`scheme-metro-view ${opacity ? 'scheme-metro-view--opacity' : ''}`" 
+        viewBox="0 0 965 700" 
+        fill="none" 
+        xmlns="http://www.w3.org/2000/svg"
+    >
         <!-- Objects on map -->
         <g id="obj-water-xezer">
             <path d="M310.5 583V699.5H815.5L673 557.5C646.6 526.7 614.667 519.333 602 519.5C542.167 518.333 411.8 516.7 369 519.5C329.83 522.063 314.754 556.369 311.201 577.5C310.872 579.458 310.641 581.304 310.5 583Z" fill="#C5D6E7" stroke="#A6C0DA"/>
@@ -187,43 +192,46 @@
             <circle id="line1_3" cx="245.108" cy="183.108" r="3.4" transform="rotate(-4.27928 245.108 183.108)" fill="white" stroke="#04AC5F"/>
 
             <!-- Memar Əcəmi to 20 Yanvar -->
-            <path d="M184 309.5L184 282" stroke="#04AC5F" stroke-width="6"/>
+            <path id="line1_4-line1_5" d="M184 309.5L184 282" stroke="#04AC5F" stroke-width="6"/>
 
             <!-- Memar Əcəmi -->
             <circle id="line1_4" cx="184.108" cy="282.108" r="3.4" transform="rotate(-90 184.108 282.108)" fill="white" stroke="#04AC5F"/>
 
             <!-- 20 Yanvar to İnşaatçılar -->
-            <path id="line1_4-line1_5" d="M184 341.5L184 309.5" stroke="#04AC5F" stroke-width="6"/>
+            <path id="line1_5-line1_6" d="M184 341.5L184 309.5" stroke="#04AC5F" stroke-width="6"/>
 
             <!-- 20 Yanvar -->
             <circle id="line1_5" cx="184.108" cy="309.108" r="3.4" transform="rotate(-94.2793 184.108 309.108)" fill="white" stroke="#04AC5F"/>
             
             <!-- İnşaatçılar to Elmlər Akademiyası -->
-            <path id="line1_5-line1_6" d="M188.5 406L187 402.5L186.264 400.539C185.756 399.184 185.397 397.777 185.192 396.345L185 395L184.5 390.5L184 368.5L184 341.5" stroke="#04AC5F" stroke-width="6"/>
+            <path id="line1_6-line1_7" d="M188.5 406L187 402.5L186.264 400.539C185.756 399.184 185.397 397.777 185.192 396.345L185 395L184.5 390.5L184 368.5L184 341.5" stroke="#04AC5F" stroke-width="6"/>
 
             <!-- İnşaatçılar -->
             <circle id="line1_6" cx="184.108" cy="341.108" r="3.4" transform="rotate(-94.2793 184.108 341.108)" fill="white" stroke="#04AC5F"/>
 
             <!-- Elmlər Akademiyası to Nizami -->
-            <path id="line1_6-line1_7" d="M263.011 429.119L244.019 429.111L225.771 428.098L217.718 427.089L213.911 426.492C212.643 426.293 211.398 425.973 210.191 425.536L207.642 424.611C206.644 424.249 205.676 423.808 204.748 423.292L202.486 422.036C201.449 421.46 200.465 420.792 199.546 420.042L197.081 418.028L195.512 416.509C194.47 415.501 193.542 414.383 192.742 413.174L190.502 409.788L188.521 405.955" stroke="#04AC5F" stroke-width="6"/>
+            <path id="line1_7-line1_8" d="M263.011 429.119L244.019 429.111L225.771 428.098L217.718 427.089L213.911 426.492C212.643 426.293 211.398 425.973 210.191 425.536L207.642 424.611C206.644 424.249 205.676 423.808 204.748 423.292L202.486 422.036C201.449 421.46 200.465 420.792 199.546 420.042L197.081 418.028L195.512 416.509C194.47 415.501 193.542 414.383 192.742 413.174L190.502 409.788L188.521 405.955" stroke="#04AC5F" stroke-width="6"/>
 
             <!-- Elmlər Akademiyası -->
             <path id="line1_7" d="M189.512 402.286C187.759 401.613 185.792 402.488 185.119 404.241C184.445 405.994 185.321 407.961 187.074 408.634C188.827 409.307 190.793 408.432 191.467 406.679C192.14 404.926 191.265 402.959 189.512 402.286Z" fill="white" stroke="#04AC5F"/>
 
             <!-- Nizami to 28 May -->
-            <path id="line1_6-line1_7" d="M373 429L263.011 429.121" stroke="#04AC5F" stroke-width="6"/>
+            <path id="line1_8-line1_9" d="M373 429L263.011 429.121" stroke="#04AC5F" stroke-width="6"/>
 
             <!-- Nizami -->
             <circle id="line1_8" cx="263.108" cy="429.108" r="3.4" transform="rotate(175.721 263.108 429.108)" fill="white" stroke="#04AC5F"/>
+
+            <!-- 28 May -->
+            <circle id="line1_9" cx="373.108" cy="429.109" r="3.4" transform="rotate(175.721 373.108 429.108)" fill="white" stroke="#04AC5F"/>
         </g>
         <g id="line3">
             <!-- Memar Əcəmi -->
             <path id="line3_36" d="M181.41 275.878C181.335 274.002 179.754 272.541 177.878 272.615C176.002 272.689 174.541 274.27 174.615 276.146C174.689 278.022 176.27 279.483 178.146 279.409C180.022 279.335 181.484 277.754 181.41 275.878Z" fill="white" stroke="#91147C"/>
         </g>
         <g id="line4">
-            <path d="M508 429L373.012 429.121" stroke="#04AC5F" stroke-width="6"/>
-            <circle cx="373.108" cy="429.108" r="3.4" transform="rotate(175.721 373.108 429.108)" fill="white" stroke="#04AC5F"/>
-            <circle cx="508.108" cy="429.111" r="3.4" transform="rotate(175.721 508.108 429.111)" fill="white" stroke="#04AC5F"/>
+            <path id="line4_33-line4_34" d="M508 429L373.012 429.121" stroke="#04AC5F" stroke-width="6"/>
+            <circle id="line4_34" cx="373.108" cy="429.108" r="3.4" transform="rotate(175.721 373.108 429.108)" fill="white" stroke="#04AC5F"/>
+            <circle id="line4_33" cx="508.108" cy="429.111" r="3.4" transform="rotate(175.721 508.108 429.111)" fill="white" stroke="#04AC5F"/>
         </g>
 
         <!-- TODO: will need be optimize -->

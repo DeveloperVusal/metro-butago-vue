@@ -198,64 +198,6 @@ export const useStationsStore = defineStore('stations', () => {
                 transfer: ['line2_22', 'line4_34'],
             }
         },
-        // {
-        //     id: 10,
-        //     name: 'Gənclik',
-        //     line_id: 1,
-        //     move: [11, 9, 23],
-        //     graph: {11: times.value.short, 9: times.value.short, 23: times.value.shortTransfer},
-        //     transfer: [ 23 ],
-        //     view: {
-        //         point: {
-        //             x: 396,
-        //             y: 333
-        //         },
-        //         text: {
-        //             x: 409,
-        //             y: 351
-        //         },
-        //         render: 'line1_10',
-        //     }
-        // },
-        // {
-        //     id: 11,
-        //     name: 'Nariman Narimanov',
-        //     line_id: 1,
-        //     move: [12, 13, 10, 24],
-        //     graph: {12: times.value.short, 13: times.value.short, 10: times.value.short, 24: times.value.shortTransfer},
-        //     transfer: [ 24 ],
-        //     view: {
-        //         point: {
-        //             x: 457,
-        //             y: 272
-        //         },
-        //         text: {
-        //             x: 470,
-        //             y: 290
-        //         },
-        //         render: 'line1_11',
-        //         transfer: ['line2_24'],
-        //     }
-        // },
-        // {
-        //     id: 12,
-        //     name: 'Bakmil',
-        //     line_id: 1,
-        //     move: [11, 25],
-        //     graph: {11: times.value.short, 25: times.value.shortTransfer},
-        //     transfer: [ 25 ],
-        //     view: {
-        //         point: {
-        //             x: 468,
-        //             y: 218
-        //         },
-        //         text: {
-        //             x: 430,
-        //             y: 212
-        //         },
-        //         render: 'line1_12',
-        //     }
-        // },
 
         // Qırmızı xətt
         {
