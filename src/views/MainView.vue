@@ -493,7 +493,7 @@ export default {
         },
         'storeRoutes.getRoute.to': {
             handler(val) {
-                if (val) this.renderRoutes()
+                if (val && this.storeRoutes.getRoute.from) this.renderRoutes()
                 else this.isRenderRoute = false
             },
             deep: true

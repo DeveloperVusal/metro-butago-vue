@@ -214,7 +214,7 @@ export default {
                         </div>
                         <div 
                             :class="(route_from.name || route_to.name) ? 'points__reverse points__reverse--active' : 'points__reverse'"
-                            @click="store.setReverseRoute()"
+                            @click="storeRoutes.setReverseRoute()"
                         >
                             <IconSwapSVG />
                         </div>
