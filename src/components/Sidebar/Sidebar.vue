@@ -7,6 +7,7 @@ import IconWalkerSVG from '@/components/Icons/IconWalker.vue'
 
 import { useRoutesStore } from '@/stores/routes'
 import { useStationsStore } from '@/stores/stations'
+import { useUIStore } from '@/stores/ui'
 
 import CustomScrollbar from '@/components/Feature/Scrollbar/CustomScrollbar.vue'
 import IncHeader from '@/components/Sidebar/Header.vue'
@@ -22,45 +23,54 @@ export default {
         RouteSearch
     },
     setup() {
-        const store = useRoutesStore()
-        const store2 = useStationsStore()
+        const storeRoutes = useRoutesStore()
+        const storeStations = useStationsStore()
+        const storeUI = useUIStore()
 
         return {
-            store,
-            store2
+            storeRoutes,
+            storeStations,
+            storeUI
         }
     },
     mounted() {
-        this.routeLoad(this.store.getRoute)
+        this.routeLoad(this.storeRoutes.getRoute)
+
+        this.toggleSidebar = this.storeUI.getToggleSidebar
     },
     watch: {
-        'store.getRoute': {
+        'storeRoutes.getRoute': {
             handler(route) {
                 this.routeLoad(route)
             },
             deep: true
         },
-        'store.getPathTimeMin': {
+        'storeRoutes.getPathTimeMin': {
             handler(time) {
                 this.routes.time = time
             },
             deep: true
         },
-        'store.getRoutePaths': {
+        'storeRoutes.getRoutePaths': {
             handler(paths) {
                 this.routes.paths = paths
-
                 this.routes.transfers = Object.keys(paths).length - 1
             },
             deep: true
-        }
+        },
+        'storeUI.getToggleSidebar': {
+            handler(newVal) {
+                this.toggleSidebar = newVal
+            },
+            deep: true
+        },
     },
     methods: {
         routeLoad(route) {
-            const from = this.store2.stations.filter((stat) => {
+            const from = this.storeStations.stations.filter((stat) => {
                 return route.from === stat.id
             })
-            const to = this.store2.stations.filter((stat) => {
+            const to = this.storeStations.stations.filter((stat) => {
                 return route.to === stat.id
             })
         
@@ -77,36 +87,27 @@ export default {
             if (from.length) {
                 this.route_from = {
                     name: from[0].name,
-                    color: this.store2.colors[from[0].line_id]
+                    color: this.storeStations.colors[from[0].line_id]
                 }
             }
 
             if (to.length) {
                 this.route_to = {
                     name: to[0].name,
-                    color:  this.store2.colors[to[0].line_id]
+                    color:  this.storeStations.colors[to[0].line_id]
                 }
             }
         },
         fnResetRoute() {
-            this.store.setRoute(null, null)
+            this.storeRoutes.setRoute(null, null)
         },
         fnToggleSidebar(e) {
             const elBtn = e.target.closest('.hide-btn')
 
             if (elBtn.classList.contains('hide-btn')) {
-                const elSidebar = this.$el
-                const elMainContent = this.$el.parentElement.querySelector('.main__content')
-
                 if (!elBtn.classList.contains('hide-btn--ishide')) {
-                    elBtn.classList.add('hide-btn--ishide')
-                    elSidebar.classList.add('sidebar--hide')
-                    elMainContent.classList.add('main__content--isfull')
-                } else {
-                    elBtn.classList.remove('hide-btn--ishide')
-                    elSidebar.classList.remove('sidebar--hide')
-                    elMainContent.classList.remove('main__content--isfull')
-                }
+                    this.storeUI.setToggleSidebar(false)
+                } else this.storeUI.setToggleSidebar(true)
             } else {
                 console.error(['Not found'])
             }
@@ -123,12 +124,12 @@ export default {
             }
 
             if (val.length) {
-                this.store2.stations.map(item => {
+                this.storeStations.stations.map(item => {
                     if (item.name.toLowerCase().indexOf(val) != -1) {
                         const setObj = {
                             id: item.id,
                             name: item.name,
-                            color: this.store2.colors[item.line_id],
+                            color: this.storeStations.colors[item.line_id],
                         }
 
                         if (n === 1) this.srch_results_from.push(setObj)
@@ -148,6 +149,7 @@ export default {
     },
     data() {
         return {
+            toggleSidebar: null,
             srch_results_from: [],
             srch_results_to: [],
             routes: {
@@ -175,8 +177,8 @@ export default {
 </script>
 
 <template>
-    <div class="sidebar">
-        <div class="hide-btn" @click="fnToggleSidebar($event)">
+    <div :class="`sidebar${(this.toggleSidebar == false)?' sidebar--hide':''}`">
+        <div :class="`hide-btn${(this.toggleSidebar == false)?' hide-btn--ishide':''}`" @click="fnToggleSidebar($event)">
             <div class="hide-btn__icon"></div>
         </div>
         <IncHeader />
@@ -192,7 +194,7 @@ export default {
                                 ></div>
                                 <div class="points__input">
                                     <input type="text" placeholder="Hardan" :value="route_from.name" @input="fnSearchStations($event, 1)">
-                                    <IconCloseSVG :from="null" v-show="store.getRoute.from" :to="store.getRoute.to" />
+                                    <IconCloseSVG :from="null" v-show="storeRoutes.getRoute.from" :to="storeRoutes.getRoute.to" />
 
                                     <RouteSearch :result="srch_results_from" :action="'from'"></RouteSearch>
                                 </div>
@@ -204,7 +206,7 @@ export default {
                                 ></div>
                                 <div class="points__input">
                                     <input type="text" placeholder="Haraya" :value="route_to.name" @input="fnSearchStations($event, 2)">
-                                    <IconCloseSVG :to="null" v-show="store.getRoute.to" :from="store.getRoute.from" />
+                                    <IconCloseSVG :to="null" v-show="storeRoutes.getRoute.to" :from="storeRoutes.getRoute.from" />
 
                                     <RouteSearch :result="srch_results_to" :action="'to'"></RouteSearch>
                                 </div>

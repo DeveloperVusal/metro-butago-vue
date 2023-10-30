@@ -8,6 +8,7 @@ import SchemeMetroBakuRoutesSVG from '@/components/Schemes/Baku/BakuMapRoutes.vu
 
 import { useStationsStore } from '@/stores/stations'
 import { useRoutesStore } from '@/stores/routes'
+import { useUIStore } from '@/stores/ui'
 import Sidebar from '@/components/Sidebar/Sidebar.vue'
 import DropDown from '@/components/UIElements/DropDown.vue'
 
@@ -20,17 +21,22 @@ export default {
         DropDown
     },
     setup() {
-        const store = useStationsStore()
-        const store2 = useRoutesStore()
+        const storeRoutes = useRoutesStore()
+        const storeStations = useStationsStore()
+        const storeUI = useUIStore()
 
         return {
-            store, store2
+            storeStations,
+            storeRoutes,
+            storeUI
         }
     },
     mounted() {
         this.zoomInit()
         this.mapInit()
         this.dropdownHideView()
+
+        this.toggleSidebar = this.storeUI.getToggleSidebar
     },
     methods: {
         zoomInit() {
@@ -104,10 +110,9 @@ export default {
         },
 
         mapInit() {
-            // const store = useStationsStore()
             const stationsRender = {}
 
-            this.store.stations.map((item) => {
+            this.storeStations.stations.map((item) => {
                 if (item.name in stationsRender) {
                     stationsRender[item.name].points.push({
                         id: item.id,
@@ -143,7 +148,7 @@ export default {
 
                 for (let k in item.points) {
                     const point = item.points[k]
-                    const station = this.store.stations.filter(itm => {
+                    const station = this.storeStations.stations.filter(itm => {
                         return point.id === itm.id
                     })
 
@@ -151,7 +156,7 @@ export default {
                         id: point.id,
                         x: point.x,
                         y: point.y,
-                        color: this.store.colors[station[0].line_id],
+                        color: this.storeStations.colors[station[0].line_id],
                         opacity: false,
                     })
                 }
@@ -181,7 +186,7 @@ export default {
                     elDropdown.style.opacity = 0
                     elDropdown.style.top = '-5000px'
 
-                    this.store.setIsActiveDropdown(false)
+                    this.storeStations.setIsActiveDropdown(false)
                 }
 
                 if (e.target.closest('.dropdown') && !this.isDropDown) {
@@ -325,19 +330,18 @@ export default {
 
             this.graph.visits = []
             this.graph.path = []
-            this.graph.points = this.convertToGraph(this.store.stations)
+            this.graph.points = this.convertToGraph(this.storeStations.stations)
 
-            const routes = this.dijkstraGraph(this.graph.points, this.store2.getRoute.from , this.store2.getRoute.to)
+            const routes = this.dijkstraGraph(this.graph.points, this.storeRoutes.getRoute.from , this.storeRoutes.getRoute.to)
 
             this.graph.path = routes[0].solution
-            this.store2.setPathTimeMin(routes[0].dist)
+            this.storeRoutes.setPathTimeMin(routes[0].dist)
 
-            this.graph.path.unshift(this.store2.getRoute.from)
+            this.graph.path.unshift(this.storeRoutes.getRoute.from)
             this.routesSVG = ''
             this.graph.path.forEach((itm, indx) => {
-                // const prev = (indx > 0) ? (this.store.stations.filter(item => item.id === this.graph.path[indx - 1])[0]) : null
-                const station = this.store.stations.filter(item => item.id === itm)[0];
-                const next = (indx < this.graph.path.length) ? (this.store.stations.filter(item => item.id === this.graph.path[indx + 1])[0]) : null
+                const station = this.storeStations.stations.filter(item => item.id === itm)[0];
+                const next = (indx < this.graph.path.length) ? (this.storeStations.stations.filter(item => item.id === this.graph.path[indx + 1])[0]) : null
 
                 if ((indx + 1) < this.graph.path.length) {
                     if (
@@ -421,7 +425,7 @@ export default {
 
             })
 
-            this.store2.setRoutePaths(renderPaths)
+            this.storeRoutes.setRoutePaths(renderPaths)
 
             this.stationsSVG = this.stationsSVG.map((itm) => {
                 itm.opacity = true
@@ -458,7 +462,7 @@ export default {
         }
     },
     watch: {
-        'store.getIsActiveDropdown': {
+        'storeStations.getIsActiveDropdown': {
             handler(newVal) {
                 this.isDropDown = newVal
 
@@ -466,7 +470,7 @@ export default {
             },
             deep: true
         },
-        'store2.getRoute': {
+        'storeRoutes.getRoute': {
             handler(route) {
                 if (!route.from || !route.to) {
                     this.stationsSVG = this.stationsSVG.map((itm) => {
@@ -482,21 +486,28 @@ export default {
                     })
 
                     this.isRenderRoute = false
-                    this.store2.setPathTimeMin(0)
+                    this.storeRoutes.setPathTimeMin(0)
                 }
             },
             deep: true
         },
-        'store2.getRoute.to': {
+        'storeRoutes.getRoute.to': {
             handler(val) {
                 if (val) this.renderRoutes()
                 else this.isRenderRoute = false
             },
             deep: true
-        }
+        },
+        'storeUI.getToggleSidebar': {
+            handler(newVal) {
+                this.toggleSidebar = newVal
+            },
+            deep: true
+        },
     },
     data() {
         return {
+            toggleSidebar: null,
             zoomViewId: 'zoom',
             zoomView: null,
             zoomPanning: false,
@@ -527,7 +538,7 @@ export default {
     <main class="main">
         <div class="main__flex">
             <Sidebar />
-            <div class="main__content" ref="main_content">
+            <div :class="`main__content${(this.toggleSidebar == false)?' main__content--isfull':''}`">
                 <div class="main__svg" id="zoom">
                     <SchemeMetroBakuLinesSVG :opacity="isRenderRoute" />
                     <SchemeMetroBakuRoutesSVG :include="routesSVG"/>
