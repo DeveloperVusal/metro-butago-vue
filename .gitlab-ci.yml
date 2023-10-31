@@ -5,7 +5,7 @@ build:
   stage: build
   before_script:
   - npm install
-  artefacts:
+  artifacts:
     expire_in: 1 days
     paths:
       - dist
