@@ -5,6 +5,10 @@ build:
   stage: build
   before_script:
   - npm install
+  artefacts:
+    expire_in: 1 days
+    paths:
+      - dist
   script:
     - npm run build
     - rm -r ./node_modules
