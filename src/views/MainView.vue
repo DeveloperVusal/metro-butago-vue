@@ -498,6 +498,13 @@ export default {
             },
             deep: true
         },
+        'storeRoutes.getRoute.from': {
+            handler(val) {
+                if (val && this.storeRoutes.getRoute.to) this.renderRoutes()
+                else this.isRenderRoute = false
+            },
+            deep: true
+        },
         'storeUI.getToggleSidebar': {
             handler(newVal) {
                 this.toggleSidebar = newVal

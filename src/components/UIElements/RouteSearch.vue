@@ -1,4 +1,5 @@
 <script>
+import { ref, watch } from 'vue'
 import './styles/RouteSearch.scss'
 
 import { useRoutesStore } from '@/stores/routes'
@@ -8,29 +9,37 @@ export default {
         'result',
         'action',
     ],
-    setup() {
+    setup(props) {
         const storeRoutes = useRoutesStore()
+        const localResult = ref([...props.result])
+        const syncLocalResult = () => {
+            localResult.value = [...props.result]
+        }
 
-        return { storeRoutes }
-    },
-    methods: {
-        fnSetRouteStation(id, action) {
-            console.log('click', id, action)
+        watch(() => props.result, syncLocalResult)
 
+        const fnSetRouteStation = (id, action) => {
             if (action === 'from') {
-                this.storeRoutes.setRoute(this.storeRoutes.getRoute.from, id)
+                storeRoutes.setRoute(id, storeRoutes.getRoute.to)
             } else if (action === 'to') {
-                this.storeRoutes.setRoute(this.storeRoutes.getRoute.to, id)
+                storeRoutes.setRoute(storeRoutes.getRoute.from, id)
             }
+
+            localResult.value = []
+        }
+
+        return {
+            localResult,
+            fnSetRouteStation
         }
     },
 }
 </script>
 
 <template>
-    <ul class="ui-route-search" v-show="result.length">
+    <ul class="ui-route-search" :style="`display: ${localResult.length ? 'block' : 'none'}`">
         <li
-            v-for="station in result"
+            v-for="station in localResult"
             :key="station.id"
             @click="fnSetRouteStation(station.id, action)"
         >

@@ -53,6 +53,7 @@ export default {
         },
         'storeRoutes.getRoutePaths': {
             handler(paths) {
+                console.log('render')
                 this.routes.paths = paths
                 this.routes.transfers = Object.keys(paths).length - 1
             },
@@ -132,8 +133,19 @@ export default {
                             color: this.storeStations.colors[item.line_id],
                         }
 
-                        if (n === 1) this.srch_results_from.push(setObj)
-                        else if (n === 2) this.srch_results_to.push(setObj)
+                        if (n === 1) {
+                            const isTo = this.srch_results_to.filter((elem) => {
+                                return elem.id == item.id;
+                            })
+
+                            if (!isTo.length) this.srch_results_from.push(setObj)
+                        }
+                        else if (n === 2) {
+                            const isFrom = this.srch_results_from.filter((elem) => {
+                                return elem.id == item.id;
+                            })
+                            if (!isFrom.length) this.srch_results_to.push(setObj)
+                        }
                     }
                 })
 
